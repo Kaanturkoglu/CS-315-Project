@@ -1,21 +1,3 @@
-tukur("enter values of x y z");
-
-int x = 0;
-int y = 0;
-int z = 0;
-
-bool valid = false;
-ye(x);
-ye(y);
-ye(z);
-
-while (!valid) {
-    if (x == 0 || y == 0 || z == 0) {
-        tukur("enter only nonzero values"); 
-    } else {
-        valid = true;
-    }
-}
 
 /*
 Multiline comment test
@@ -23,5 +5,3 @@ Multiline comment test
 
 // Inline comment test
 
-int z = x * y * z;
-tukur(z);

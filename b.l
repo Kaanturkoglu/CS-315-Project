@@ -1,5 +1,6 @@
 %option main
 
+MULTILINE_COMMENT \/\*.*\*\/
 SIGN [+-]
 SPACE [ ]
 ALPHABETIC [A-Za-z]
@@ -16,7 +17,7 @@ ARRAY_FLOAT \[{SPACE}?{FLOAT}+({SPACE}?{COMMA}{SPACE}?{FLOAT}+{SPACE}?)*\]
 ARRAY_BOOL \[{SPACE}?{BOOL}+({SPACE}?{COMMA}{SPACE}?{BOOL}+{SPACE}?)*\]
 ARRAY_CHAR \[{SPACE}?{CHAR}+({SPACE}?{COMMA}{SPACE}?{CHAR}+{SPACE}?)*\]
 ARRAY_STRING \[{SPACE}?{STRING}+({SPACE}?{COMMA}{SPACE}?{STRING}+{SPACE}?)*\]
-COMMENT \/\/
+COMMENT \/\/.*
 NL \n
 WS [ \t\r\f\v]+
 OROP \|\|
@@ -62,7 +63,7 @@ INTEGER_DEF int
 RETURN don
 
 %%
-
+{MULTILINE_COMMENT} printf("MULTILINE_COMMENT");
 {ARRAY_IDENT} printf("ARRAY_IDENT ");
 {INT} printf("INT ");
 {RETURN} printf("RETURN ");

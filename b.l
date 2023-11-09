@@ -1,6 +1,5 @@
 %option main
-
-MULTILINE_COMMENT \/\*.*\*\/
+PLUS \+
 SIGN [+-]
 SPACE [ ]
 ALPHABETIC [A-Za-z]
@@ -12,12 +11,8 @@ INT {SIGN}?{DIGIT}+
 IDENTIFIER {ALPHABETIC}({ALPHABETIC}|{DIGIT})*
 STRING \"[^\"\n]*\"
 ARRAY_IDENT \[\]
-ARRAY_INT \[{SPACE}?{INT}+({SPACE}?{COMMA}{SPACE}?{INT}+{SPACE}?)*\]
-ARRAY_FLOAT \[{SPACE}?{FLOAT}+({SPACE}?{COMMA}{SPACE}?{FLOAT}+{SPACE}?)*\]
-ARRAY_BOOL \[{SPACE}?{BOOL}+({SPACE}?{COMMA}{SPACE}?{BOOL}+{SPACE}?)*\]
-ARRAY_CHAR \[{SPACE}?{CHAR}+({SPACE}?{COMMA}{SPACE}?{CHAR}+{SPACE}?)*\]
-ARRAY_STRING \[{SPACE}?{STRING}+({SPACE}?{COMMA}{SPACE}?{STRING}+{SPACE}?)*\]
 COMMENT \/\/.*
+MULTILINE_COMMENT "/*"([^*]|\*+[^*/])*\*+"/"
 NL \n
 WS [ \t\r\f\v]+
 OROP \|\|
@@ -25,7 +20,6 @@ ANDOP \&\&
 EQUAL \=\=
 ASSIGN \=
 NOT \!
-PLUS \+
 MINUS \-
 DIV \/
 MULT \*
@@ -63,7 +57,6 @@ INTEGER_DEF int
 RETURN don
 
 %%
-{MULTILINE_COMMENT} printf("MULTILINE_COMMENT");
 {ARRAY_IDENT} printf("ARRAY_IDENT ");
 {INT} printf("INT ");
 {RETURN} printf("RETURN ");
@@ -77,6 +70,7 @@ RETURN don
 {MULT} printf("MULT ");
 {EXPONENT} printf("EXPO ");
 {COMMENT} printf("COMMENT ");
+{MULTILINE_COMMENT} printf("MULTILINE_COMMENT ");
 {MOD} printf("MOD ");
 {IF} printf("IF ");
 {ELSE} printf("ELSE ");
@@ -112,11 +106,6 @@ RETURN don
 {IDENTIFIER} printf("IDENTIFIER ");
 {INCREASE} printf("INCREASE ");
 {DECREASE} printf("DECREASE ");
-{ARRAY_INT} printf("INT_ARRAY ");
-{ARRAY_FLOAT} printf("FLOAT_ARRAY ");
-{ARRAY_BOOL} printf("BOOL_ARRAY ");
-{ARRAY_CHAR} printf("CHAR_ARRAY ");
-{ARRAY_STRING} printf("STRING_ARRAY ");
 {NL} /* */
 {WS}  /* skip whitespace */
 

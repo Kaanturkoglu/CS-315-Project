@@ -137,7 +137,13 @@ update_statement : variable_name DECREASE | variable_name INCREASE
 
 assignment_statement : variable ASSIGN expression;  
 
-condition : boolean_var | expression comparison_operator expression | variable_name
+condition : boolean_var 
+       | LB expression RB comparison_operator LB expression RB 
+       | variable_name 
+       | variable_name comparison_operator variable_name
+       | LB expression RB comparison_operator variable_name
+       | variable_name comparison_operator LB expression RB 
+
 conditions : LP condition RP
        | condition ANDOP condition
        | condition OROP condition

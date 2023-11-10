@@ -7,14 +7,10 @@ SPACE [ ]
 ALPHABETIC [A-Za-z]
 DIGIT [0-9]
 FLOAT [-+]?[0-9]*\.?[0-9]+?
-CHAR \'[^\']\'
 BOOL {TRUE}|{FALSE}
 INT {SIGN}?{DIGIT}+
 IDENTIFIER {ALPHABETIC}({ALPHABETIC}|{DIGIT})*
-STRING \"[^\"\n]*\"
-ARRAY_IDENT \[\]
 COMMENT \/\/([^\n]*)(\n)
-MULTILINE_COMMENT "/*"([^*]|\*+[^*/])*\*+"/"
 NL \n
 WS [ \t\r\f\v]+
 OROP \|\|
@@ -53,18 +49,13 @@ FALSE false
 YE ye
 TUKUR tukur
 BOOL_DEF bool 
-CHAR_DEF char 
-STRING_DEF string 
 FLOAT_DEF float 
 INTEGER_DEF int
 DON don
-TT \'
 
 %%
 {KASIK} return KASIK;
 {BICAK} return BICAK;
-{ARRAY_IDENT} return ARRAY_IDENT;
-{TT} return TT;
 {INT} return INT;
 {DON} return DON;
 {OROP} return OROP;
@@ -77,7 +68,6 @@ TT \'
 {MULT} return MULT;
 {EXPONENT} return EXPONENT;
 {COMMENT} return COMMENT;
-{MULTILINE_COMMENT} return MULTILINE_COMMENT;
 {MOD} return MOD;
 {IF} return IF;
 {ELSE} return ELSE;
@@ -102,13 +92,9 @@ TT \'
 {NOT_EQUAL} return NOT_EQUAL;
 {TRUE} return TRUE;
 {FALSE} return FALSE;
-{STRING} return STRING;
 {FLOAT} return FLOAT;
-{CHAR} return CHAR;
 {ASSIGN} return ASSIGN;
 {BOOL_DEF} return BOOL_DEF;
-{CHAR_DEF} return CHAR_DEF;
-{STRING_DEF} return STRING_DEF;
 {FLOAT_DEF} return FLOAT_DEF;
 {INTEGER_DEF} return INTEGER_DEF;
 {IDENTIFIER} return IDENTIFIER;

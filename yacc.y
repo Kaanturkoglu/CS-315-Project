@@ -67,29 +67,31 @@ extern int yylineno;
 %token KASIK
 %token BICAK
 
-%%
+%%		
 
 program : KASIK statements BICAK
 statements : statement | statement statements
+
 statement : assignment_statement 
        | condition_statement 
        | loop_statement 
        | input_statement
        | output_statement
        | comment_statement
+       | update_statement
        | function_statement
        | function_call
        | block
-       | SC
+       | SC 
 
 loop_statement : for_statement
        | while_statement
               
-block : LB statements RB | LB statements DON expression RB
-function_call : FUNCT function_name LP function_expression_list RP
+block : LB statements RB | LB statements DON expression RB | LB RB
+function_call : function_name LP function_expression_list RP
 function_expression_list : expression | expression COMMA expression
 
-variable_type : BOOL | FLOAT | INT
+variable_type : BOOL_DEF | FLOAT_DEF | INTEGER_DEF
 any_char : ALPHABETIC | DIGIT | WS
 
 boolean_var : TRUE | FALSE
@@ -97,16 +99,14 @@ char_var : TT any_char TT
 
 text : any_char | any_char text
 
-signless_int : DIGIT | DIGIT signless_int
-int_var : PLUS signless_int | MINUS signless_int | signless_int
+int_var : INT
 
 digit_sequence : DIGIT | DIGIT digit_sequence
 signless_float : digit_sequence DOT digit_sequence
-float_var : PLUS signless_float | MINUS signless_float | signless_float
+float_var : FLOAT
 
-identifier : ALPHABETIC | DIGIT
-variable_name_long : identifier | identifier variable_name_long
-variable_name : ALPHABETIC | ALPHABETIC variable_name_long
+identifier : IDENTIFIER
+variable_name : identifier 
 variable : variable_type variable_name
 
 
@@ -131,22 +131,22 @@ factor : LP expression RP
 
 item : variable_name | constant
 
-constant : char_var | boolean_var | int_var | float_var
+constant : boolean_var | int_var | float_var
 
-update_statement : expression INCREASE
-       | expression DECREASE
+update_statement : variable_name DECREASE | variable_name INCREASE
 
-assignment_statement : variable EQUAL expression;  
+assignment_statement : variable ASSIGN expression;  
 
-condition_expression : expression comparison_operator expression
-       | LP condition_statement RP
-       | condition_statement ANDOP condition_statement
-       | condition_statement OROP condition_statement
-       | NOT condition_statement
-       | boolean_var
+condition : boolean_var | expression comparison_operator expression | variable_name
+conditions : LP condition RP
+       | condition ANDOP condition
+       | condition OROP condition
+       | NOT condition
+       | condition conditions
+       | condition
 
-condition_statement : IF LP condition_expression RP block
-       | IF LP condition_expression RP block ELSE block
+condition_statement : IF LP conditions RP block
+       | IF LP conditions RP block ELSE block
 
 comparison_operator : EQUAL 
        | NOT_EQUAL
@@ -155,8 +155,8 @@ comparison_operator : EQUAL
        | GRE_OR_EQU
        | LES_OR_EQU
 
-for_statement : FOR LP assignment_statement SC condition_expression SC update_statement RP block
-while_statement : WHILE LP condition_expression RP block
+for_statement : FOR LP assignment_statement SC conditions SC update_statement RP block
+while_statement : WHILE LP conditions RP block
 
 
 
@@ -169,7 +169,7 @@ inline_comment : COMMENT text
 
 
 
-function_statement : FUNCT function_name  function_body RP block 
+function_statement : FUNCT function_name function_body block
 function_name : variable_name
 function_variable_list : variable | variable COMMA function_variable_list
 function_body : LP RP

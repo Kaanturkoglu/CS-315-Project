@@ -1,4 +1,4 @@
-%option main
+%option yylineno
 KASIK kasik 
 BICAK bicak
 PLUS \+
@@ -13,7 +13,7 @@ INT {SIGN}?{DIGIT}+
 IDENTIFIER {ALPHABETIC}({ALPHABETIC}|{DIGIT})*
 STRING \"[^\"\n]*\"
 ARRAY_IDENT \[\]
-COMMENT \/\/.*
+COMMENT \/\/([^\n]*)(\n)
 MULTILINE_COMMENT "/*"([^*]|\*+[^*/])*\*+"/"
 NL \n
 WS [ \t\r\f\v]+
@@ -61,60 +61,61 @@ DON don
 TT \'
 
 %%
-{KASIK} printf("KASIK ");
-{BICAK} printf("BICAK ");
-{ARRAY_IDENT} printf("ARRAY_IDENT ");
-{TT} printf("TT ");
-{INT} printf("INT ");
-{DON} printf("DON ");
-{OROP} printf("OR ");
-{ANDOP} printf("AND ");
-{EQUAL} printf("EQUAL ");
-{NOT} printf("NOT ");
-{PLUS} printf("PLUS ");
-{MINUS} printf("MINUS ");
-{DIV} printf("DIV ");
-{MULT} printf("MULT ");
-{EXPONENT} printf("EXPO ");
-{COMMENT} printf("COMMENT ");
-{MULTILINE_COMMENT} printf("MULTILINE_COMMENT ");
-{MOD} printf("MOD ");
-{IF} printf("IF ");
-{ELSE} printf("ELSE ");
-{FOR} printf("FOR ");
-{WHILE} printf("WHILE ");
-{FUNCT} printf("FUNCTION ");
-{LP} printf("LP ");
-{RP} printf("RP ");
-{LB} printf("LB ");
-{RB} printf("RB ");
-{LSB} printf("LSB ");
-{RSB} printf("RSB ");
-{SC} printf("SC ");
-{COMMA} printf("COMMA ");
-{DOT} printf("DOT ");
-{YE} printf("YE ");
-{TUKUR} printf("TUKUR ");
-{GREATER_THAN} printf("GREATER_THAN ");
-{LESS_THAN} printf("LESS_THAN ");
-{GRE_OR_EQU} printf("GRE_OR_EQU ");
-{LES_OR_EQU} printf("LES_OR_EQU ");
-{NOT_EQUAL} printf("NOT_EQUAL ");
-{TRUE} printf("TRUE ");
-{FALSE} printf("FALSE ");
-{STRING} printf("STR ");
-{FLOAT} printf("FLOAT ");
-{CHAR} printf("CHAR ");
-{ASSIGN} printf("ASSIGN ");
-{BOOL_DEF} printf("BOOL ");
-{CHAR_DEF} printf("CHAR "); 
-{STRING_DEF} printf("STRING "); 
-{FLOAT_DEF} printf("FLOAT ");
-{INTEGER_DEF} printf("INTEGER ");
-{IDENTIFIER} printf("IDENTIFIER ");
-{INCREASE} printf("INCREASE ");
-{DECREASE} printf("DECREASE ");
-{NL} /* */
-{WS}  /* skip whitespace */
+{KASIK} return KASIK;
+{BICAK} return BICAK;
+{ARRAY_IDENT} return ARRAY_IDENT;
+{TT} return TT;
+{INT} return INT;
+{DON} return DON;
+{OROP} return OROP;
+{ANDOP} return ANDOP;
+{EQUAL} return EQUAL;
+{NOT} return NOT;
+{PLUS} return PLUS;
+{MINUS} return MINUS;
+{DIV} return DIV;
+{MULT} return MULT;
+{EXPONENT} return EXPONENT;
+{COMMENT} return COMMENT;
+{MULTILINE_COMMENT} return MULTILINE_COMMENT;
+{MOD} return MOD;
+{IF} return IF;
+{ELSE} return ELSE;
+{FOR} return FOR;
+{WHILE} return WHILE;
+{FUNCT} return FUNCT;
+{LP} return LP;
+{RP} return RP;
+{LB} return LB;
+{RB} return RB;
+{LSB} return LSB;
+{RSB} return RSB;
+{SC} return SC;
+{COMMA} return COMMA;
+{DOT} return DOT;
+{YE} return YE;
+{TUKUR} return TUKUR;
+{GREATER_THAN} return GREATER_THAN;
+{LESS_THAN} return LESS_THAN;
+{GRE_OR_EQU} return GRE_OR_EQU;
+{LES_OR_EQU} return LES_OR_EQU;
+{NOT_EQUAL} return NOT_EQUAL;
+{TRUE} return TRUE;
+{FALSE} return FALSE;
+{STRING} return STRING;
+{FLOAT} return FLOAT;
+{CHAR} return CHAR;
+{ASSIGN} return ASSIGN;
+{BOOL_DEF} return BOOL_DEF;
+{CHAR_DEF} return CHAR_DEF;
+{STRING_DEF} return STRING_DEF;
+{FLOAT_DEF} return FLOAT_DEF;
+{INTEGER_DEF} return INTEGER_DEF;
+{IDENTIFIER} return IDENTIFIER;
+{INCREASE} return INCREASE;
+{DECREASE} return DECREASE;
+{NL} ; 
+{WS} ;
 
 %%
+int yywrap(){return 1;}

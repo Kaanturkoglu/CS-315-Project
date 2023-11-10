@@ -76,17 +76,17 @@ statement : assignment_statement
        | loop_statement 
        | input_statement
        | output_statement
-       /* | comment_statement
+       | comment_statement
        | function_statement
        | function_call
        | block
-       | SC */
+       | SC
 
 loop_statement : for_statement
        | while_statement
               
 block : LB statements RB | LB statements DON expression RB
-function_call : function_name LP function_expression_list RP
+function_call : FUNCT function_name LP function_expression_list RP
 function_expression_list : expression | expression COMMA expression
 
 variable_type : BOOL | FLOAT | INT

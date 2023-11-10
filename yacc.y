@@ -7,21 +7,11 @@ extern int yylineno;
 %}
 
 %token PLUS
-%token SIGN
-%token SPACE
-%token ALPHABETIC
 %token DIGIT
 %token FLOAT
-%token CHAR
-%token BOOL
 %token INT
 %token IDENTIFIER
-%token STRING
-%token ARRAY_IDENT
 %token COMMENT
-%token MULTILINE_COMMENT
-%token NL
-%token WS
 %token OROP
 %token ANDOP
 %token EQUAL
@@ -31,7 +21,6 @@ extern int yylineno;
 %token DIV
 %token MULT
 %token EXPONENT
-%token MOD
 %token INCREASE
 %token DECREASE
 %token IF
@@ -58,14 +47,15 @@ extern int yylineno;
 %token YE
 %token TUKUR
 %token BOOL_DEF
-%token CHAR_DEF
-%token STRING_DEF
 %token FLOAT_DEF
 %token INTEGER_DEF
 %token DON
-%token TT
 %token KASIK
 %token BICAK
+
+%left ANDOP
+%left OROP
+%left NOT
 
 %%		
 
@@ -92,18 +82,13 @@ function_call : function_name LP function_expression_list RP
 function_expression_list : expression | expression COMMA expression
 
 variable_type : BOOL_DEF | FLOAT_DEF | INTEGER_DEF
-any_char : ALPHABETIC | DIGIT | WS
 
 boolean_var : TRUE | FALSE
-char_var : TT any_char TT
-
-text : any_char | any_char text
-
 int_var : INT
+float_var : FLOAT
 
 digit_sequence : DIGIT | DIGIT digit_sequence
 signless_float : digit_sequence DOT digit_sequence
-float_var : FLOAT
 
 identifier : IDENTIFIER
 variable_name : identifier 
@@ -135,21 +120,17 @@ constant : boolean_var | int_var | float_var
 
 update_statement : variable_name DECREASE | variable_name INCREASE
 
-assignment_statement : variable ASSIGN expression;  
+assignment_statement : variable ASSIGN expression | variable_name ASSIGN expression
 
-condition : boolean_var 
-       | LB expression RB comparison_operator LB expression RB 
-       | variable_name 
-       | variable_name comparison_operator variable_name
-       | LB expression RB comparison_operator variable_name
-       | variable_name comparison_operator LB expression RB 
+conditions : conditions ANDOP conditions
+          | conditions OROP conditions
+          | NOT conditions
+          | boolean_var
+          | variable_name
+          | LB conditions RB
+          | expression comparison_operator expression
+          
 
-conditions : LP condition RP
-       | condition ANDOP condition
-       | condition OROP condition
-       | NOT condition
-       | condition conditions
-       | condition
 
 condition_statement : IF LP conditions RP block
        | IF LP conditions RP block ELSE block
@@ -161,19 +142,14 @@ comparison_operator : EQUAL
        | GRE_OR_EQU
        | LES_OR_EQU
 
-for_statement : FOR LP assignment_statement SC conditions SC update_statement RP block
+for_statement : FOR LP assignment_statement SC conditions SC update_statement RP block | FOR LP assignment_statement SC conditions SC assignment_statement RP block
 while_statement : WHILE LP conditions RP block
-
-
 
 input_statement: YE LP variable_name RP
 output_statement : TUKUR LP expression RP
 
-
 comment_statement : inline_comment 
-inline_comment : COMMENT text
-
-
+inline_comment : COMMENT
 
 function_statement : FUNCT function_name function_body block
 function_name : variable_name

@@ -4,6 +4,7 @@ bool baban = true;
 int annen = -12;
 int annen = +12;
 int annen = 12;
+annen = annen + 12;
 float bana = 12.3;
 int deneme = 12 + bana;
 int deneme = 12 - bana;
@@ -30,7 +31,12 @@ bool baban = true;
     int bbane = 12;
 }
 function anan() {
-
+  int aa = 5;
+  int bb = 3;
+  int cc = 4;
+  if(aa > cc && {bb < cc && bb < aa}) {
+    tukur(2);
+  }
 }
 
 function anan(int sa, bool be) {
@@ -38,8 +44,16 @@ function anan(int sa, bool be) {
 }
 
 anan(a, b);
-
-if ((true)) {
+int b = (3 + 5);
+if (2 + 5 > 12 && 5 == b || c) {
     
+}
+
+while (true) {
+
+}
+// sa
+for (int i = 0; i < 12; i = i + 2) {
+
 }
 bicak

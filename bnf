@@ -27,6 +27,7 @@ kase
 <any-char> ::= <letter> | <digit> | <symbol> | <whitespace>
 
 <boolean_var> ::= <TRUE> | <FALSE>
+<char_var> ::= <TT> <any_char> <TT>
 
 <signless_int> ::= <digit> | <digit> <signless_int>
 <int_var> ::= <plus> <signless_int> | <minus> <signless_int> | <signless_int>
@@ -67,7 +68,7 @@ kase
 
 <item> ::= <variable_name> | <constant>
 
-<constant> ::= <char_var> | <boolean_var> | <string_var> | <int_var> | <float_var>
+<constant> ::= <char_var> | <boolean_var> | <int_var> | <float_var>
 
 <update_statement> ::= <expression> <INCREASE>
        | <expression> <DECREASE>
@@ -139,7 +140,8 @@ kase
 <COMMENT> ::= //
 <CM_OPEN> ::= /*
 <CM_CLOSE> ::= */
-<ARRAY_SIGN> ::= []
+<ARRAY_SIGN> ::= [
+<TT> ::= '
 
 <TRUE> ::= true
 <FALSE> ::= false

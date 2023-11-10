@@ -76,11 +76,11 @@ statement : assignment_statement
        | loop_statement 
        | input_statement
        | output_statement
-       | comment_statement
+       /* | comment_statement
        | function_statement
        | function_call
        | block
-       | SC
+       | SC */
 
 loop_statement : for_statement
        | while_statement
@@ -146,7 +146,7 @@ condition_expression : expression comparison_operator expression
        | boolean_var
 
 condition_statement : IF LP condition_expression RP block
-       | LP condition_expression RP statements ELSE statements
+       | IF LP condition_expression RP block ELSE block
 
 comparison_operator : EQUAL 
        | NOT_EQUAL
@@ -161,7 +161,7 @@ while_statement : WHILE LP condition_expression RP block
 
 
 input_statement: YE LP variable_name RP
-output_statement : TUKUR LP text RP | TUKUR LP variable_name RP
+output_statement : TUKUR LP expression RP
 
 
 comment_statement : inline_comment 

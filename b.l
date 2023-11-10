@@ -1,4 +1,6 @@
 %option main
+KASIK kasik 
+BICAK bicak
 PLUS \+
 SIGN [+-]
 SPACE [ ]
@@ -40,6 +42,7 @@ LSB \[
 RSB \]
 SC \;
 COMMA \,
+DOT \.
 GREATER_THAN \>
 LESS_THAN \<
 GRE_OR_EQU \>\=
@@ -48,18 +51,22 @@ NOT_EQUAL \!\=
 TRUE true
 FALSE false
 YE ye
-SIC sic
+TUKUR tukur
 BOOL_DEF bool 
 CHAR_DEF char 
 STRING_DEF string 
 FLOAT_DEF float 
 INTEGER_DEF int
 DON don
+TT \'
 
 %%
+{KASIK} printf("KASIK ");
+{BICAK} printf("BICAK ");
 {ARRAY_IDENT} printf("ARRAY_IDENT ");
+{TT} printf("TT ");
 {INT} printf("INT ");
-{RETURN} printf("RETURN ");
+{DON} printf("DON ");
 {OROP} printf("OR ");
 {ANDOP} printf("AND ");
 {EQUAL} printf("EQUAL ");
@@ -85,8 +92,9 @@ DON don
 {RSB} printf("RSB ");
 {SC} printf("SC ");
 {COMMA} printf("COMMA ");
-{YE} printf("INPUT ");
-{SIC} printf("OUTPUT ");
+{DOT} printf("DOT ");
+{YE} printf("YE ");
+{TUKUR} printf("TUKUR ");
 {GREATER_THAN} printf("GREATER_THAN ");
 {LESS_THAN} printf("LESS_THAN ");
 {GRE_OR_EQU} printf("GRE_OR_EQU ");
@@ -108,6 +116,5 @@ DON don
 {DECREASE} printf("DECREASE ");
 {NL} /* */
 {WS}  /* skip whitespace */
-
 
 %%

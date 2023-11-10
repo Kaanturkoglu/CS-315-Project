@@ -47,6 +47,7 @@ extern int yylineno;
 %token RSB
 %token SC
 %token COMMA
+%token DOT
 %token GREATER_THAN
 %token LESS_THAN
 %token GRE_OR_EQU
@@ -55,17 +56,20 @@ extern int yylineno;
 %token TRUE
 %token FALSE
 %token YE
-%token SIC
+%token TUKUR
 %token BOOL_DEF
 %token CHAR_DEF
 %token STRING_DEF
 %token FLOAT_DEF
 %token INTEGER_DEF
 %token DON
+%token TT
+%token KASIK
+%token BICAK
 
 %%
 
-program : kasik statements bicak
+program : KASIK statements BICAK
 statements : statement | statement statements
 statement : assignment_statement 
        | condition_statement 
@@ -81,39 +85,40 @@ statement : assignment_statement
 loop_statement : for_statement
        | while_statement
               
-              
-block : LB statements RB | LB statements don expression RB
+block : LB statements RB | LB statements DON expression RB
 function_call : function_name LP function_expression_list RP
 function_expression_list : expression | expression COMMA expression
 
-variable_type : BOOL | float | integer
-any_char : letter | digit | symbol | whitespace
+variable_type : BOOL | FLOAT | INT
+any_char : ALPHABETIC | DIGIT | WS
 
 boolean_var : TRUE | FALSE
+char_var : TT any_char TT
 
-signless_int : digit | digit signless_int
+text : any_char | any_char text
+
+signless_int : DIGIT | DIGIT signless_int
 int_var : PLUS signless_int | MINUS signless_int | signless_int
 
-digit_sequence : digit | digit digit_sequence
-signless_float : digit_sequence . digit_sequence
+digit_sequence : DIGIT | DIGIT digit_sequence
+signless_float : digit_sequence DOT digit_sequence
 float_var : PLUS signless_float | MINUS signless_float | signless_float
 
-identifier : letter | digit
+identifier : ALPHABETIC | DIGIT
 variable_name_long : identifier | identifier variable_name_long
-variable_name : letter | letter variable_name_long
+variable_name : ALPHABETIC | ALPHABETIC variable_name_long
 variable : variable_type variable_name
 
 
 collection : LSB integer_list RSB
-       | LSB string_list RSB
        | LSB float_list RSB
        | LSB char_list RSB
        | LSB boolean_list RSB
 
-integer_list : integer | integer_list COMMA integer
-float_list : integer | float_list COMMA integer
-char_list : integer | char_list COMMA integer
-boolean_list : integer | boolean_list COMMA integer
+integer_list : INT | integer_list COMMA INT
+float_list : INT | float_list COMMA INT
+char_list : INT | char_list COMMA INT
+boolean_list : INT | boolean_list COMMA INT
 
 
 expression : expression PLUS term | expression MINUS term
@@ -126,7 +131,7 @@ factor : LP expression RP
 
 item : variable_name | constant
 
-constant : char_var | boolean_var | string_var | int_var | float_var
+constant : char_var | boolean_var | int_var | float_var
 
 update_statement : expression INCREASE
        | expression DECREASE
@@ -134,35 +139,40 @@ update_statement : expression INCREASE
 assignment_statement : variable EQUAL expression;  
 
 condition_expression : expression comparison_operator expression
-       | LP condition RP
-       | condition AND condition
-       | condition OR condition
-       | NOT condition
+       | LP condition_statement RP
+       | condition_statement ANDOP condition_statement
+       | condition_statement OROP condition_statement
+       | NOT condition_statement
        | boolean_var
 
+condition_statement : IF LP condition_expression RP block
+       | LP condition_expression RP statements ELSE statements
 
-condition_statement : if LP condition_expression RP block
-       | LP condition_expression RP statements else statements
+comparison_operator : EQUAL 
+       | NOT_EQUAL
+       | GREATER_THAN
+       | LESS_THAN
+       | GRE_OR_EQU
+       | LES_OR_EQU
+
+for_statement : FOR LP assignment_statement SC condition_expression SC update_statement RP block
+while_statement : WHILE LP condition_expression RP block
 
 
-for_statement : for LP assignment_st SC condition_expression SC update_statement RP block
-while_statement : while LP condition_expression RP block
+
+input_statement: YE LP variable_name RP
+output_statement : TUKUR LP text RP | TUKUR LP variable_name RP
 
 
-
-input_statement: cinLP variable_name RP
-output_statement : tukurLP string_varRP | tukurLP variable_nameRP
-
-
-comment_statement : inline_comment | multiline_comment 
+comment_statement : inline_comment 
 inline_comment : COMMENT text
-multiline_comment : CM_OPEN text CM_CLOSE
 
 
-function_statement : function function_name  function_body RP block 
+
+function_statement : FUNCT function_name  function_body RP block 
 function_name : variable_name
 function_variable_list : variable | variable COMMA function_variable_list
-function_body : LPRP
+function_body : LP RP
        | LP function_variable_list RP
 
 %%

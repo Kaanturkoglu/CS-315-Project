@@ -24,10 +24,12 @@ kase
 
 // variables
 <variable_type> ::= bool | float | integer
-<any-char> ::= <letter> | <digit> | <symbol> | <whitespace>
+<any_char> ::= <letter> | <digit> | <symbol> | <whitespace>
 
 <boolean_var> ::= <TRUE> | <FALSE>
 <char_var> ::= <TT> <any_char> <TT>
+
+<text> ::= <any_char> | <any_char> <text>
 
 <signless_int> ::= <digit> | <digit> <signless_int>
 <int_var> ::= <plus> <signless_int> | <minus> <signless_int> | <signless_int>
@@ -44,7 +46,6 @@ kase
 // Lists
 
 <collection> ::= <LSB> <integer-list> <RSB>
-       | <LSB> <string-list> <RSB>
        | <LSB> <float-list> <RSB>
        | <LSB> <char-list> <RSB>
        | <LSB> <boolean-list> <RSB>

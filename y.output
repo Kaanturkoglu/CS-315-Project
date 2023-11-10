@@ -1,0 +1,2345 @@
+Useless nonterminals
+
+   collection
+   integer_list
+   float_list
+   char_list
+   boolean_list
+
+
+Terminals which are not used
+
+   SIGN
+   SPACE
+   CHAR
+   IDENTIFIER
+   STRING
+   ARRAY_IDENT
+   MULTILINE_COMMENT
+   NL
+   ASSIGN
+   MOD
+   LSB
+   RSB
+   BOOL_DEF
+   CHAR_DEF
+   STRING_DEF
+   FLOAT_DEF
+   INTEGER_DEF
+
+
+Useless rules
+
+   96 collection: LSB integer_list RSB
+   97           | LSB float_list RSB
+   98           | LSB char_list RSB
+   99           | LSB boolean_list RSB
+
+  100 integer_list: INT
+  101             | integer_list COMMA INT
+
+  102 float_list: INT
+  103           | float_list COMMA INT
+
+  104 char_list: INT
+  105          | char_list COMMA INT
+
+  106 boolean_list: INT
+  107             | boolean_list COMMA INT
+
+
+State 3 conflicts: 1 shift/reduce
+State 18 conflicts: 14 shift/reduce
+State 38 conflicts: 1 shift/reduce
+State 43 conflicts: 1 shift/reduce
+State 57 conflicts: 1 reduce/reduce
+State 117 conflicts: 2 shift/reduce, 1 reduce/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: KASIK statements BICAK
+
+    2 statements: statement
+    3           | statement statements
+
+    4 statement: assignment_statement
+    5          | condition_statement
+    6          | loop_statement
+    7          | input_statement
+    8          | output_statement
+    9          | comment_statement
+   10          | function_statement
+   11          | function_call
+   12          | block
+   13          | SC
+
+   14 loop_statement: for_statement
+   15               | while_statement
+
+   16 block: LB statements RB
+   17      | LB statements DON expression RB
+
+   18 function_call: function_name LP function_expression_list RP
+
+   19 function_expression_list: expression
+   20                         | expression COMMA expression
+
+   21 variable_type: BOOL
+   22              | FLOAT
+   23              | INT
+
+   24 any_char: ALPHABETIC
+   25         | DIGIT
+   26         | WS
+
+   27 boolean_var: TRUE
+   28            | FALSE
+
+   29 char_var: TT any_char TT
+
+   30 text: any_char
+   31     | any_char text
+
+   32 signless_int: DIGIT
+   33             | DIGIT signless_int
+
+   34 int_var: PLUS signless_int
+   35        | MINUS signless_int
+   36        | signless_int
+
+   37 digit_sequence: DIGIT
+   38               | DIGIT digit_sequence
+
+   39 signless_float: digit_sequence DOT digit_sequence
+
+   40 float_var: PLUS signless_float
+   41          | MINUS signless_float
+   42          | signless_float
+
+   43 identifier: ALPHABETIC
+   44           | DIGIT
+
+   45 variable_name_long: identifier
+   46                   | identifier variable_name_long
+
+   47 variable_name: ALPHABETIC
+   48              | ALPHABETIC variable_name_long
+
+   49 variable: variable_type variable_name
+
+   50 expression: expression PLUS term
+   51           | expression MINUS term
+   52           | term
+
+   53 term: term MULT power
+   54     | term DIV power
+   55     | power
+
+   56 power: power EXPONENT factor
+   57      | factor
+
+   58 factor: LP expression RP
+   59       | item
+
+   60 item: variable_name
+   61     | constant
+
+   62 constant: char_var
+   63         | boolean_var
+   64         | int_var
+   65         | float_var
+
+   66 update_statement: expression INCREASE
+   67                 | expression DECREASE
+
+   68 assignment_statement: variable EQUAL expression
+
+   69 condition_expression: expression comparison_operator expression
+   70                     | LP condition_statement RP
+   71                     | condition_statement ANDOP condition_statement
+   72                     | condition_statement OROP condition_statement
+   73                     | NOT condition_statement
+   74                     | boolean_var
+
+   75 condition_statement: IF LP condition_expression RP block
+   76                    | LP condition_expression RP statements ELSE statements
+
+   77 comparison_operator: EQUAL
+   78                    | NOT_EQUAL
+   79                    | GREATER_THAN
+   80                    | LESS_THAN
+   81                    | GRE_OR_EQU
+   82                    | LES_OR_EQU
+
+   83 for_statement: FOR LP assignment_statement SC condition_expression SC update_statement RP block
+
+   84 while_statement: WHILE LP condition_expression RP block
+
+   85 input_statement: YE LP variable_name RP
+
+   86 output_statement: TUKUR LP text RP
+   87                 | TUKUR LP variable_name RP
+
+   88 comment_statement: inline_comment
+
+   89 inline_comment: COMMENT text
+
+   90 function_statement: FUNCT function_name function_body RP block
+
+   91 function_name: variable_name
+
+   92 function_variable_list: variable
+   93                       | variable COMMA function_variable_list
+
+   94 function_body: LP RP
+   95              | LP function_variable_list RP
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+PLUS (258) 34 40 50
+SIGN (259)
+SPACE (260)
+ALPHABETIC (261) 24 43 47 48
+DIGIT (262) 25 32 33 37 38 44
+FLOAT (263) 22
+CHAR (264)
+BOOL (265) 21
+INT (266) 23
+IDENTIFIER (267)
+STRING (268)
+ARRAY_IDENT (269)
+COMMENT (270) 89
+MULTILINE_COMMENT (271)
+NL (272)
+WS (273) 26
+OROP (274) 72
+ANDOP (275) 71
+EQUAL (276) 68 77
+ASSIGN (277)
+NOT (278) 73
+MINUS (279) 35 41 51
+DIV (280) 54
+MULT (281) 53
+EXPONENT (282) 56
+MOD (283)
+INCREASE (284) 66
+DECREASE (285) 67
+IF (286) 75
+ELSE (287) 76
+FOR (288) 83
+WHILE (289) 84
+FUNCT (290) 90
+LP (291) 18 58 70 75 76 83 84 85 86 87 94 95
+RP (292) 18 58 70 75 76 83 84 85 86 87 90 94 95
+LB (293) 16 17
+RB (294) 16 17
+LSB (295)
+RSB (296)
+SC (297) 13 83
+COMMA (298) 20 93
+DOT (299) 39
+GREATER_THAN (300) 79
+LESS_THAN (301) 80
+GRE_OR_EQU (302) 81
+LES_OR_EQU (303) 82
+NOT_EQUAL (304) 78
+TRUE (305) 27
+FALSE (306) 28
+YE (307) 85
+TUKUR (308) 86 87
+BOOL_DEF (309)
+CHAR_DEF (310)
+STRING_DEF (311)
+FLOAT_DEF (312)
+INTEGER_DEF (313)
+DON (314) 17
+TT (315) 29
+KASIK (316) 1
+BICAK (317) 1
+
+
+Nonterminals, with rules where they appear
+
+$accept (63)
+    on left: 0
+program (64)
+    on left: 1, on right: 0
+statements (65)
+    on left: 2 3, on right: 1 3 16 17 76
+statement (66)
+    on left: 4 5 6 7 8 9 10 11 12 13, on right: 2 3
+loop_statement (67)
+    on left: 14 15, on right: 6
+block (68)
+    on left: 16 17, on right: 12 75 83 84 90
+function_call (69)
+    on left: 18, on right: 11
+function_expression_list (70)
+    on left: 19 20, on right: 18
+variable_type (71)
+    on left: 21 22 23, on right: 49
+any_char (72)
+    on left: 24 25 26, on right: 29 30 31
+boolean_var (73)
+    on left: 27 28, on right: 63 74
+char_var (74)
+    on left: 29, on right: 62
+text (75)
+    on left: 30 31, on right: 31 86 89
+signless_int (76)
+    on left: 32 33, on right: 33 34 35 36
+int_var (77)
+    on left: 34 35 36, on right: 64
+digit_sequence (78)
+    on left: 37 38, on right: 38 39
+signless_float (79)
+    on left: 39, on right: 40 41 42
+float_var (80)
+    on left: 40 41 42, on right: 65
+identifier (81)
+    on left: 43 44, on right: 45 46
+variable_name_long (82)
+    on left: 45 46, on right: 46 48
+variable_name (83)
+    on left: 47 48, on right: 49 60 85 87 91
+variable (84)
+    on left: 49, on right: 68 92 93
+expression (85)
+    on left: 50 51 52, on right: 17 19 20 50 51 58 66 67 68 69
+term (86)
+    on left: 53 54 55, on right: 50 51 52 53 54
+power (87)
+    on left: 56 57, on right: 53 54 55 56
+factor (88)
+    on left: 58 59, on right: 56 57
+item (89)
+    on left: 60 61, on right: 59
+constant (90)
+    on left: 62 63 64 65, on right: 61
+update_statement (91)
+    on left: 66 67, on right: 83
+assignment_statement (92)
+    on left: 68, on right: 4 83
+condition_expression (93)
+    on left: 69 70 71 72 73 74, on right: 75 76 83 84
+condition_statement (94)
+    on left: 75 76, on right: 5 70 71 72 73
+comparison_operator (95)
+    on left: 77 78 79 80 81 82, on right: 69
+for_statement (96)
+    on left: 83, on right: 14
+while_statement (97)
+    on left: 84, on right: 15
+input_statement (98)
+    on left: 85, on right: 7
+output_statement (99)
+    on left: 86 87, on right: 8
+comment_statement (100)
+    on left: 88, on right: 9
+inline_comment (101)
+    on left: 89, on right: 88
+function_statement (102)
+    on left: 90, on right: 10
+function_name (103)
+    on left: 91, on right: 18 90
+function_variable_list (104)
+    on left: 92 93, on right: 93 95
+function_body (105)
+    on left: 94 95, on right: 90
+
+
+state 0
+
+    0 $accept: . program $end
+
+    KASIK  shift, and go to state 1
+
+    program  go to state 2
+
+
+state 1
+
+    1 program: KASIK . statements BICAK
+
+    ALPHABETIC  shift, and go to state 3
+    FLOAT       shift, and go to state 4
+    BOOL        shift, and go to state 5
+    INT         shift, and go to state 6
+    COMMENT     shift, and go to state 7
+    IF          shift, and go to state 8
+    FOR         shift, and go to state 9
+    WHILE       shift, and go to state 10
+    FUNCT       shift, and go to state 11
+    LP          shift, and go to state 12
+    LB          shift, and go to state 13
+    SC          shift, and go to state 14
+    YE          shift, and go to state 15
+    TUKUR       shift, and go to state 16
+
+    statements            go to state 17
+    statement             go to state 18
+    loop_statement        go to state 19
+    block                 go to state 20
+    function_call         go to state 21
+    variable_type         go to state 22
+    variable_name         go to state 23
+    variable              go to state 24
+    assignment_statement  go to state 25
+    condition_statement   go to state 26
+    for_statement         go to state 27
+    while_statement       go to state 28
+    input_statement       go to state 29
+    output_statement      go to state 30
+    comment_statement     go to state 31
+    inline_comment        go to state 32
+    function_statement    go to state 33
+    function_name         go to state 34
+
+
+state 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 35
+
+
+state 3
+
+   47 variable_name: ALPHABETIC .
+   48              | ALPHABETIC . variable_name_long
+
+    ALPHABETIC  shift, and go to state 36
+    DIGIT       shift, and go to state 37
+
+    ALPHABETIC  [reduce using rule 47 (variable_name)]
+    $default    reduce using rule 47 (variable_name)
+
+    identifier          go to state 38
+    variable_name_long  go to state 39
+
+
+state 4
+
+   22 variable_type: FLOAT .
+
+    $default  reduce using rule 22 (variable_type)
+
+
+state 5
+
+   21 variable_type: BOOL .
+
+    $default  reduce using rule 21 (variable_type)
+
+
+state 6
+
+   23 variable_type: INT .
+
+    $default  reduce using rule 23 (variable_type)
+
+
+state 7
+
+   89 inline_comment: COMMENT . text
+
+    ALPHABETIC  shift, and go to state 40
+    DIGIT       shift, and go to state 41
+    WS          shift, and go to state 42
+
+    any_char  go to state 43
+    text      go to state 44
+
+
+state 8
+
+   75 condition_statement: IF . LP condition_expression RP block
+
+    LP  shift, and go to state 45
+
+
+state 9
+
+   83 for_statement: FOR . LP assignment_statement SC condition_expression SC update_statement RP block
+
+    LP  shift, and go to state 46
+
+
+state 10
+
+   84 while_statement: WHILE . LP condition_expression RP block
+
+    LP  shift, and go to state 47
+
+
+state 11
+
+   90 function_statement: FUNCT . function_name function_body RP block
+
+    ALPHABETIC  shift, and go to state 3
+
+    variable_name  go to state 23
+    function_name  go to state 48
+
+
+state 12
+
+   76 condition_statement: LP . condition_expression RP statements ELSE statements
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    NOT         shift, and go to state 51
+    MINUS       shift, and go to state 52
+    IF          shift, and go to state 8
+    LP          shift, and go to state 53
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var           go to state 57
+    char_var              go to state 58
+    signless_int          go to state 59
+    int_var               go to state 60
+    digit_sequence        go to state 61
+    signless_float        go to state 62
+    float_var             go to state 63
+    variable_name         go to state 64
+    expression            go to state 65
+    term                  go to state 66
+    power                 go to state 67
+    factor                go to state 68
+    item                  go to state 69
+    constant              go to state 70
+    condition_expression  go to state 71
+    condition_statement   go to state 72
+
+
+state 13
+
+   16 block: LB . statements RB
+   17      | LB . statements DON expression RB
+
+    ALPHABETIC  shift, and go to state 3
+    FLOAT       shift, and go to state 4
+    BOOL        shift, and go to state 5
+    INT         shift, and go to state 6
+    COMMENT     shift, and go to state 7
+    IF          shift, and go to state 8
+    FOR         shift, and go to state 9
+    WHILE       shift, and go to state 10
+    FUNCT       shift, and go to state 11
+    LP          shift, and go to state 12
+    LB          shift, and go to state 13
+    SC          shift, and go to state 14
+    YE          shift, and go to state 15
+    TUKUR       shift, and go to state 16
+
+    statements            go to state 73
+    statement             go to state 18
+    loop_statement        go to state 19
+    block                 go to state 20
+    function_call         go to state 21
+    variable_type         go to state 22
+    variable_name         go to state 23
+    variable              go to state 24
+    assignment_statement  go to state 25
+    condition_statement   go to state 26
+    for_statement         go to state 27
+    while_statement       go to state 28
+    input_statement       go to state 29
+    output_statement      go to state 30
+    comment_statement     go to state 31
+    inline_comment        go to state 32
+    function_statement    go to state 33
+    function_name         go to state 34
+
+
+state 14
+
+   13 statement: SC .
+
+    $default  reduce using rule 13 (statement)
+
+
+state 15
+
+   85 input_statement: YE . LP variable_name RP
+
+    LP  shift, and go to state 74
+
+
+state 16
+
+   86 output_statement: TUKUR . LP text RP
+   87                 | TUKUR . LP variable_name RP
+
+    LP  shift, and go to state 75
+
+
+state 17
+
+    1 program: KASIK statements . BICAK
+
+    BICAK  shift, and go to state 76
+
+
+state 18
+
+    2 statements: statement .
+    3           | statement . statements
+
+    ALPHABETIC  shift, and go to state 3
+    FLOAT       shift, and go to state 4
+    BOOL        shift, and go to state 5
+    INT         shift, and go to state 6
+    COMMENT     shift, and go to state 7
+    IF          shift, and go to state 8
+    FOR         shift, and go to state 9
+    WHILE       shift, and go to state 10
+    FUNCT       shift, and go to state 11
+    LP          shift, and go to state 12
+    LB          shift, and go to state 13
+    SC          shift, and go to state 14
+    YE          shift, and go to state 15
+    TUKUR       shift, and go to state 16
+
+    ALPHABETIC  [reduce using rule 2 (statements)]
+    FLOAT       [reduce using rule 2 (statements)]
+    BOOL        [reduce using rule 2 (statements)]
+    INT         [reduce using rule 2 (statements)]
+    COMMENT     [reduce using rule 2 (statements)]
+    IF          [reduce using rule 2 (statements)]
+    FOR         [reduce using rule 2 (statements)]
+    WHILE       [reduce using rule 2 (statements)]
+    FUNCT       [reduce using rule 2 (statements)]
+    LP          [reduce using rule 2 (statements)]
+    LB          [reduce using rule 2 (statements)]
+    SC          [reduce using rule 2 (statements)]
+    YE          [reduce using rule 2 (statements)]
+    TUKUR       [reduce using rule 2 (statements)]
+    $default    reduce using rule 2 (statements)
+
+    statements            go to state 77
+    statement             go to state 18
+    loop_statement        go to state 19
+    block                 go to state 20
+    function_call         go to state 21
+    variable_type         go to state 22
+    variable_name         go to state 23
+    variable              go to state 24
+    assignment_statement  go to state 25
+    condition_statement   go to state 26
+    for_statement         go to state 27
+    while_statement       go to state 28
+    input_statement       go to state 29
+    output_statement      go to state 30
+    comment_statement     go to state 31
+    inline_comment        go to state 32
+    function_statement    go to state 33
+    function_name         go to state 34
+
+
+state 19
+
+    6 statement: loop_statement .
+
+    $default  reduce using rule 6 (statement)
+
+
+state 20
+
+   12 statement: block .
+
+    $default  reduce using rule 12 (statement)
+
+
+state 21
+
+   11 statement: function_call .
+
+    $default  reduce using rule 11 (statement)
+
+
+state 22
+
+   49 variable: variable_type . variable_name
+
+    ALPHABETIC  shift, and go to state 3
+
+    variable_name  go to state 78
+
+
+state 23
+
+   91 function_name: variable_name .
+
+    $default  reduce using rule 91 (function_name)
+
+
+state 24
+
+   68 assignment_statement: variable . EQUAL expression
+
+    EQUAL  shift, and go to state 79
+
+
+state 25
+
+    4 statement: assignment_statement .
+
+    $default  reduce using rule 4 (statement)
+
+
+state 26
+
+    5 statement: condition_statement .
+
+    $default  reduce using rule 5 (statement)
+
+
+state 27
+
+   14 loop_statement: for_statement .
+
+    $default  reduce using rule 14 (loop_statement)
+
+
+state 28
+
+   15 loop_statement: while_statement .
+
+    $default  reduce using rule 15 (loop_statement)
+
+
+state 29
+
+    7 statement: input_statement .
+
+    $default  reduce using rule 7 (statement)
+
+
+state 30
+
+    8 statement: output_statement .
+
+    $default  reduce using rule 8 (statement)
+
+
+state 31
+
+    9 statement: comment_statement .
+
+    $default  reduce using rule 9 (statement)
+
+
+state 32
+
+   88 comment_statement: inline_comment .
+
+    $default  reduce using rule 88 (comment_statement)
+
+
+state 33
+
+   10 statement: function_statement .
+
+    $default  reduce using rule 10 (statement)
+
+
+state 34
+
+   18 function_call: function_name . LP function_expression_list RP
+
+    LP  shift, and go to state 80
+
+
+state 35
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 36
+
+   43 identifier: ALPHABETIC .
+
+    $default  reduce using rule 43 (identifier)
+
+
+state 37
+
+   44 identifier: DIGIT .
+
+    $default  reduce using rule 44 (identifier)
+
+
+state 38
+
+   45 variable_name_long: identifier .
+   46                   | identifier . variable_name_long
+
+    ALPHABETIC  shift, and go to state 36
+    DIGIT       shift, and go to state 37
+
+    ALPHABETIC  [reduce using rule 45 (variable_name_long)]
+    $default    reduce using rule 45 (variable_name_long)
+
+    identifier          go to state 38
+    variable_name_long  go to state 81
+
+
+state 39
+
+   48 variable_name: ALPHABETIC variable_name_long .
+
+    $default  reduce using rule 48 (variable_name)
+
+
+state 40
+
+   24 any_char: ALPHABETIC .
+
+    $default  reduce using rule 24 (any_char)
+
+
+state 41
+
+   25 any_char: DIGIT .
+
+    $default  reduce using rule 25 (any_char)
+
+
+state 42
+
+   26 any_char: WS .
+
+    $default  reduce using rule 26 (any_char)
+
+
+state 43
+
+   30 text: any_char .
+   31     | any_char . text
+
+    ALPHABETIC  shift, and go to state 40
+    DIGIT       shift, and go to state 41
+    WS          shift, and go to state 42
+
+    ALPHABETIC  [reduce using rule 30 (text)]
+    $default    reduce using rule 30 (text)
+
+    any_char  go to state 43
+    text      go to state 82
+
+
+state 44
+
+   89 inline_comment: COMMENT text .
+
+    $default  reduce using rule 89 (inline_comment)
+
+
+state 45
+
+   75 condition_statement: IF LP . condition_expression RP block
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    NOT         shift, and go to state 51
+    MINUS       shift, and go to state 52
+    IF          shift, and go to state 8
+    LP          shift, and go to state 53
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var           go to state 57
+    char_var              go to state 58
+    signless_int          go to state 59
+    int_var               go to state 60
+    digit_sequence        go to state 61
+    signless_float        go to state 62
+    float_var             go to state 63
+    variable_name         go to state 64
+    expression            go to state 65
+    term                  go to state 66
+    power                 go to state 67
+    factor                go to state 68
+    item                  go to state 69
+    constant              go to state 70
+    condition_expression  go to state 83
+    condition_statement   go to state 72
+
+
+state 46
+
+   83 for_statement: FOR LP . assignment_statement SC condition_expression SC update_statement RP block
+
+    FLOAT  shift, and go to state 4
+    BOOL   shift, and go to state 5
+    INT    shift, and go to state 6
+
+    variable_type         go to state 22
+    variable              go to state 24
+    assignment_statement  go to state 84
+
+
+state 47
+
+   84 while_statement: WHILE LP . condition_expression RP block
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    NOT         shift, and go to state 51
+    MINUS       shift, and go to state 52
+    IF          shift, and go to state 8
+    LP          shift, and go to state 53
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var           go to state 57
+    char_var              go to state 58
+    signless_int          go to state 59
+    int_var               go to state 60
+    digit_sequence        go to state 61
+    signless_float        go to state 62
+    float_var             go to state 63
+    variable_name         go to state 64
+    expression            go to state 65
+    term                  go to state 66
+    power                 go to state 67
+    factor                go to state 68
+    item                  go to state 69
+    constant              go to state 70
+    condition_expression  go to state 85
+    condition_statement   go to state 72
+
+
+state 48
+
+   90 function_statement: FUNCT function_name . function_body RP block
+
+    LP  shift, and go to state 86
+
+    function_body  go to state 87
+
+
+state 49
+
+   34 int_var: PLUS . signless_int
+   40 float_var: PLUS . signless_float
+
+    DIGIT  shift, and go to state 50
+
+    signless_int    go to state 88
+    digit_sequence  go to state 61
+    signless_float  go to state 89
+
+
+state 50
+
+   32 signless_int: DIGIT .
+   33             | DIGIT . signless_int
+   37 digit_sequence: DIGIT .
+   38               | DIGIT . digit_sequence
+
+    DIGIT  shift, and go to state 50
+
+    DOT       reduce using rule 37 (digit_sequence)
+    $default  reduce using rule 32 (signless_int)
+
+    signless_int    go to state 90
+    digit_sequence  go to state 91
+
+
+state 51
+
+   73 condition_expression: NOT . condition_statement
+
+    IF  shift, and go to state 8
+    LP  shift, and go to state 12
+
+    condition_statement  go to state 92
+
+
+state 52
+
+   35 int_var: MINUS . signless_int
+   41 float_var: MINUS . signless_float
+
+    DIGIT  shift, and go to state 50
+
+    signless_int    go to state 93
+    digit_sequence  go to state 61
+    signless_float  go to state 94
+
+
+state 53
+
+   58 factor: LP . expression RP
+   70 condition_expression: LP . condition_statement RP
+   76 condition_statement: LP . condition_expression RP statements ELSE statements
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    NOT         shift, and go to state 51
+    MINUS       shift, and go to state 52
+    IF          shift, and go to state 8
+    LP          shift, and go to state 53
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var           go to state 57
+    char_var              go to state 58
+    signless_int          go to state 59
+    int_var               go to state 60
+    digit_sequence        go to state 61
+    signless_float        go to state 62
+    float_var             go to state 63
+    variable_name         go to state 64
+    expression            go to state 95
+    term                  go to state 66
+    power                 go to state 67
+    factor                go to state 68
+    item                  go to state 69
+    constant              go to state 70
+    condition_expression  go to state 71
+    condition_statement   go to state 96
+
+
+state 54
+
+   27 boolean_var: TRUE .
+
+    $default  reduce using rule 27 (boolean_var)
+
+
+state 55
+
+   28 boolean_var: FALSE .
+
+    $default  reduce using rule 28 (boolean_var)
+
+
+state 56
+
+   29 char_var: TT . any_char TT
+
+    ALPHABETIC  shift, and go to state 40
+    DIGIT       shift, and go to state 41
+    WS          shift, and go to state 42
+
+    any_char  go to state 97
+
+
+state 57
+
+   63 constant: boolean_var .
+   74 condition_expression: boolean_var .
+
+    RP        reduce using rule 63 (constant)
+    RP        [reduce using rule 74 (condition_expression)]
+    SC        reduce using rule 74 (condition_expression)
+    $default  reduce using rule 63 (constant)
+
+
+state 58
+
+   62 constant: char_var .
+
+    $default  reduce using rule 62 (constant)
+
+
+state 59
+
+   36 int_var: signless_int .
+
+    $default  reduce using rule 36 (int_var)
+
+
+state 60
+
+   64 constant: int_var .
+
+    $default  reduce using rule 64 (constant)
+
+
+state 61
+
+   39 signless_float: digit_sequence . DOT digit_sequence
+
+    DOT  shift, and go to state 98
+
+
+state 62
+
+   42 float_var: signless_float .
+
+    $default  reduce using rule 42 (float_var)
+
+
+state 63
+
+   65 constant: float_var .
+
+    $default  reduce using rule 65 (constant)
+
+
+state 64
+
+   60 item: variable_name .
+
+    $default  reduce using rule 60 (item)
+
+
+state 65
+
+   50 expression: expression . PLUS term
+   51           | expression . MINUS term
+   69 condition_expression: expression . comparison_operator expression
+
+    PLUS          shift, and go to state 99
+    EQUAL         shift, and go to state 100
+    MINUS         shift, and go to state 101
+    GREATER_THAN  shift, and go to state 102
+    LESS_THAN     shift, and go to state 103
+    GRE_OR_EQU    shift, and go to state 104
+    LES_OR_EQU    shift, and go to state 105
+    NOT_EQUAL     shift, and go to state 106
+
+    comparison_operator  go to state 107
+
+
+state 66
+
+   52 expression: term .
+   53 term: term . MULT power
+   54     | term . DIV power
+
+    DIV   shift, and go to state 108
+    MULT  shift, and go to state 109
+
+    $default  reduce using rule 52 (expression)
+
+
+state 67
+
+   55 term: power .
+   56 power: power . EXPONENT factor
+
+    EXPONENT  shift, and go to state 110
+
+    $default  reduce using rule 55 (term)
+
+
+state 68
+
+   57 power: factor .
+
+    $default  reduce using rule 57 (power)
+
+
+state 69
+
+   59 factor: item .
+
+    $default  reduce using rule 59 (factor)
+
+
+state 70
+
+   61 item: constant .
+
+    $default  reduce using rule 61 (item)
+
+
+state 71
+
+   76 condition_statement: LP condition_expression . RP statements ELSE statements
+
+    RP  shift, and go to state 111
+
+
+state 72
+
+   71 condition_expression: condition_statement . ANDOP condition_statement
+   72                     | condition_statement . OROP condition_statement
+
+    OROP   shift, and go to state 112
+    ANDOP  shift, and go to state 113
+
+
+state 73
+
+   16 block: LB statements . RB
+   17      | LB statements . DON expression RB
+
+    RB   shift, and go to state 114
+    DON  shift, and go to state 115
+
+
+state 74
+
+   85 input_statement: YE LP . variable_name RP
+
+    ALPHABETIC  shift, and go to state 3
+
+    variable_name  go to state 116
+
+
+state 75
+
+   86 output_statement: TUKUR LP . text RP
+   87                 | TUKUR LP . variable_name RP
+
+    ALPHABETIC  shift, and go to state 117
+    DIGIT       shift, and go to state 41
+    WS          shift, and go to state 42
+
+    any_char       go to state 43
+    text           go to state 118
+    variable_name  go to state 119
+
+
+state 76
+
+    1 program: KASIK statements BICAK .
+
+    $default  reduce using rule 1 (program)
+
+
+state 77
+
+    3 statements: statement statements .
+
+    $default  reduce using rule 3 (statements)
+
+
+state 78
+
+   49 variable: variable_type variable_name .
+
+    $default  reduce using rule 49 (variable)
+
+
+state 79
+
+   68 assignment_statement: variable EQUAL . expression
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    expression      go to state 122
+    term            go to state 66
+    power           go to state 67
+    factor          go to state 68
+    item            go to state 69
+    constant        go to state 70
+
+
+state 80
+
+   18 function_call: function_name LP . function_expression_list RP
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    function_expression_list  go to state 123
+    boolean_var               go to state 121
+    char_var                  go to state 58
+    signless_int              go to state 59
+    int_var                   go to state 60
+    digit_sequence            go to state 61
+    signless_float            go to state 62
+    float_var                 go to state 63
+    variable_name             go to state 64
+    expression                go to state 124
+    term                      go to state 66
+    power                     go to state 67
+    factor                    go to state 68
+    item                      go to state 69
+    constant                  go to state 70
+
+
+state 81
+
+   46 variable_name_long: identifier variable_name_long .
+
+    $default  reduce using rule 46 (variable_name_long)
+
+
+state 82
+
+   31 text: any_char text .
+
+    $default  reduce using rule 31 (text)
+
+
+state 83
+
+   75 condition_statement: IF LP condition_expression . RP block
+
+    RP  shift, and go to state 125
+
+
+state 84
+
+   83 for_statement: FOR LP assignment_statement . SC condition_expression SC update_statement RP block
+
+    SC  shift, and go to state 126
+
+
+state 85
+
+   84 while_statement: WHILE LP condition_expression . RP block
+
+    RP  shift, and go to state 127
+
+
+state 86
+
+   94 function_body: LP . RP
+   95              | LP . function_variable_list RP
+
+    FLOAT  shift, and go to state 4
+    BOOL   shift, and go to state 5
+    INT    shift, and go to state 6
+    RP     shift, and go to state 128
+
+    variable_type           go to state 22
+    variable                go to state 129
+    function_variable_list  go to state 130
+
+
+state 87
+
+   90 function_statement: FUNCT function_name function_body . RP block
+
+    RP  shift, and go to state 131
+
+
+state 88
+
+   34 int_var: PLUS signless_int .
+
+    $default  reduce using rule 34 (int_var)
+
+
+state 89
+
+   40 float_var: PLUS signless_float .
+
+    $default  reduce using rule 40 (float_var)
+
+
+state 90
+
+   33 signless_int: DIGIT signless_int .
+
+    $default  reduce using rule 33 (signless_int)
+
+
+state 91
+
+   38 digit_sequence: DIGIT digit_sequence .
+
+    $default  reduce using rule 38 (digit_sequence)
+
+
+state 92
+
+   73 condition_expression: NOT condition_statement .
+
+    $default  reduce using rule 73 (condition_expression)
+
+
+state 93
+
+   35 int_var: MINUS signless_int .
+
+    $default  reduce using rule 35 (int_var)
+
+
+state 94
+
+   41 float_var: MINUS signless_float .
+
+    $default  reduce using rule 41 (float_var)
+
+
+state 95
+
+   50 expression: expression . PLUS term
+   51           | expression . MINUS term
+   58 factor: LP expression . RP
+   69 condition_expression: expression . comparison_operator expression
+
+    PLUS          shift, and go to state 99
+    EQUAL         shift, and go to state 100
+    MINUS         shift, and go to state 101
+    RP            shift, and go to state 132
+    GREATER_THAN  shift, and go to state 102
+    LESS_THAN     shift, and go to state 103
+    GRE_OR_EQU    shift, and go to state 104
+    LES_OR_EQU    shift, and go to state 105
+    NOT_EQUAL     shift, and go to state 106
+
+    comparison_operator  go to state 107
+
+
+state 96
+
+   70 condition_expression: LP condition_statement . RP
+   71                     | condition_statement . ANDOP condition_statement
+   72                     | condition_statement . OROP condition_statement
+
+    OROP   shift, and go to state 112
+    ANDOP  shift, and go to state 113
+    RP     shift, and go to state 133
+
+
+state 97
+
+   29 char_var: TT any_char . TT
+
+    TT  shift, and go to state 134
+
+
+state 98
+
+   39 signless_float: digit_sequence DOT . digit_sequence
+
+    DIGIT  shift, and go to state 135
+
+    digit_sequence  go to state 136
+
+
+state 99
+
+   50 expression: expression PLUS . term
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    term            go to state 137
+    power           go to state 67
+    factor          go to state 68
+    item            go to state 69
+    constant        go to state 70
+
+
+state 100
+
+   77 comparison_operator: EQUAL .
+
+    $default  reduce using rule 77 (comparison_operator)
+
+
+state 101
+
+   51 expression: expression MINUS . term
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    term            go to state 138
+    power           go to state 67
+    factor          go to state 68
+    item            go to state 69
+    constant        go to state 70
+
+
+state 102
+
+   79 comparison_operator: GREATER_THAN .
+
+    $default  reduce using rule 79 (comparison_operator)
+
+
+state 103
+
+   80 comparison_operator: LESS_THAN .
+
+    $default  reduce using rule 80 (comparison_operator)
+
+
+state 104
+
+   81 comparison_operator: GRE_OR_EQU .
+
+    $default  reduce using rule 81 (comparison_operator)
+
+
+state 105
+
+   82 comparison_operator: LES_OR_EQU .
+
+    $default  reduce using rule 82 (comparison_operator)
+
+
+state 106
+
+   78 comparison_operator: NOT_EQUAL .
+
+    $default  reduce using rule 78 (comparison_operator)
+
+
+state 107
+
+   69 condition_expression: expression comparison_operator . expression
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    expression      go to state 139
+    term            go to state 66
+    power           go to state 67
+    factor          go to state 68
+    item            go to state 69
+    constant        go to state 70
+
+
+state 108
+
+   54 term: term DIV . power
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    power           go to state 140
+    factor          go to state 68
+    item            go to state 69
+    constant        go to state 70
+
+
+state 109
+
+   53 term: term MULT . power
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    power           go to state 141
+    factor          go to state 68
+    item            go to state 69
+    constant        go to state 70
+
+
+state 110
+
+   56 power: power EXPONENT . factor
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    factor          go to state 142
+    item            go to state 69
+    constant        go to state 70
+
+
+state 111
+
+   76 condition_statement: LP condition_expression RP . statements ELSE statements
+
+    ALPHABETIC  shift, and go to state 3
+    FLOAT       shift, and go to state 4
+    BOOL        shift, and go to state 5
+    INT         shift, and go to state 6
+    COMMENT     shift, and go to state 7
+    IF          shift, and go to state 8
+    FOR         shift, and go to state 9
+    WHILE       shift, and go to state 10
+    FUNCT       shift, and go to state 11
+    LP          shift, and go to state 12
+    LB          shift, and go to state 13
+    SC          shift, and go to state 14
+    YE          shift, and go to state 15
+    TUKUR       shift, and go to state 16
+
+    statements            go to state 143
+    statement             go to state 18
+    loop_statement        go to state 19
+    block                 go to state 20
+    function_call         go to state 21
+    variable_type         go to state 22
+    variable_name         go to state 23
+    variable              go to state 24
+    assignment_statement  go to state 25
+    condition_statement   go to state 26
+    for_statement         go to state 27
+    while_statement       go to state 28
+    input_statement       go to state 29
+    output_statement      go to state 30
+    comment_statement     go to state 31
+    inline_comment        go to state 32
+    function_statement    go to state 33
+    function_name         go to state 34
+
+
+state 112
+
+   72 condition_expression: condition_statement OROP . condition_statement
+
+    IF  shift, and go to state 8
+    LP  shift, and go to state 12
+
+    condition_statement  go to state 144
+
+
+state 113
+
+   71 condition_expression: condition_statement ANDOP . condition_statement
+
+    IF  shift, and go to state 8
+    LP  shift, and go to state 12
+
+    condition_statement  go to state 145
+
+
+state 114
+
+   16 block: LB statements RB .
+
+    $default  reduce using rule 16 (block)
+
+
+state 115
+
+   17 block: LB statements DON . expression RB
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    expression      go to state 146
+    term            go to state 66
+    power           go to state 67
+    factor          go to state 68
+    item            go to state 69
+    constant        go to state 70
+
+
+state 116
+
+   85 input_statement: YE LP variable_name . RP
+
+    RP  shift, and go to state 147
+
+
+state 117
+
+   24 any_char: ALPHABETIC .
+   47 variable_name: ALPHABETIC .
+   48              | ALPHABETIC . variable_name_long
+
+    ALPHABETIC  shift, and go to state 36
+    DIGIT       shift, and go to state 37
+
+    ALPHABETIC  [reduce using rule 24 (any_char)]
+    DIGIT       [reduce using rule 24 (any_char)]
+    RP          reduce using rule 24 (any_char)
+    RP          [reduce using rule 47 (variable_name)]
+    $default    reduce using rule 24 (any_char)
+
+    identifier          go to state 38
+    variable_name_long  go to state 39
+
+
+state 118
+
+   86 output_statement: TUKUR LP text . RP
+
+    RP  shift, and go to state 148
+
+
+state 119
+
+   87 output_statement: TUKUR LP variable_name . RP
+
+    RP  shift, and go to state 149
+
+
+state 120
+
+   58 factor: LP . expression RP
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    expression      go to state 150
+    term            go to state 66
+    power           go to state 67
+    factor          go to state 68
+    item            go to state 69
+    constant        go to state 70
+
+
+state 121
+
+   63 constant: boolean_var .
+
+    $default  reduce using rule 63 (constant)
+
+
+state 122
+
+   50 expression: expression . PLUS term
+   51           | expression . MINUS term
+   68 assignment_statement: variable EQUAL expression .
+
+    PLUS   shift, and go to state 99
+    MINUS  shift, and go to state 101
+
+    $default  reduce using rule 68 (assignment_statement)
+
+
+state 123
+
+   18 function_call: function_name LP function_expression_list . RP
+
+    RP  shift, and go to state 151
+
+
+state 124
+
+   19 function_expression_list: expression .
+   20                         | expression . COMMA expression
+   50 expression: expression . PLUS term
+   51           | expression . MINUS term
+
+    PLUS   shift, and go to state 99
+    MINUS  shift, and go to state 101
+    COMMA  shift, and go to state 152
+
+    $default  reduce using rule 19 (function_expression_list)
+
+
+state 125
+
+   75 condition_statement: IF LP condition_expression RP . block
+
+    LB  shift, and go to state 13
+
+    block  go to state 153
+
+
+state 126
+
+   83 for_statement: FOR LP assignment_statement SC . condition_expression SC update_statement RP block
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    NOT         shift, and go to state 51
+    MINUS       shift, and go to state 52
+    IF          shift, and go to state 8
+    LP          shift, and go to state 53
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var           go to state 57
+    char_var              go to state 58
+    signless_int          go to state 59
+    int_var               go to state 60
+    digit_sequence        go to state 61
+    signless_float        go to state 62
+    float_var             go to state 63
+    variable_name         go to state 64
+    expression            go to state 65
+    term                  go to state 66
+    power                 go to state 67
+    factor                go to state 68
+    item                  go to state 69
+    constant              go to state 70
+    condition_expression  go to state 154
+    condition_statement   go to state 72
+
+
+state 127
+
+   84 while_statement: WHILE LP condition_expression RP . block
+
+    LB  shift, and go to state 13
+
+    block  go to state 155
+
+
+state 128
+
+   94 function_body: LP RP .
+
+    $default  reduce using rule 94 (function_body)
+
+
+state 129
+
+   92 function_variable_list: variable .
+   93                       | variable . COMMA function_variable_list
+
+    COMMA  shift, and go to state 156
+
+    $default  reduce using rule 92 (function_variable_list)
+
+
+state 130
+
+   95 function_body: LP function_variable_list . RP
+
+    RP  shift, and go to state 157
+
+
+state 131
+
+   90 function_statement: FUNCT function_name function_body RP . block
+
+    LB  shift, and go to state 13
+
+    block  go to state 158
+
+
+state 132
+
+   58 factor: LP expression RP .
+
+    $default  reduce using rule 58 (factor)
+
+
+state 133
+
+   70 condition_expression: LP condition_statement RP .
+
+    $default  reduce using rule 70 (condition_expression)
+
+
+state 134
+
+   29 char_var: TT any_char TT .
+
+    $default  reduce using rule 29 (char_var)
+
+
+state 135
+
+   37 digit_sequence: DIGIT .
+   38               | DIGIT . digit_sequence
+
+    DIGIT  shift, and go to state 135
+
+    $default  reduce using rule 37 (digit_sequence)
+
+    digit_sequence  go to state 91
+
+
+state 136
+
+   39 signless_float: digit_sequence DOT digit_sequence .
+
+    $default  reduce using rule 39 (signless_float)
+
+
+state 137
+
+   50 expression: expression PLUS term .
+   53 term: term . MULT power
+   54     | term . DIV power
+
+    DIV   shift, and go to state 108
+    MULT  shift, and go to state 109
+
+    $default  reduce using rule 50 (expression)
+
+
+state 138
+
+   51 expression: expression MINUS term .
+   53 term: term . MULT power
+   54     | term . DIV power
+
+    DIV   shift, and go to state 108
+    MULT  shift, and go to state 109
+
+    $default  reduce using rule 51 (expression)
+
+
+state 139
+
+   50 expression: expression . PLUS term
+   51           | expression . MINUS term
+   69 condition_expression: expression comparison_operator expression .
+
+    PLUS   shift, and go to state 99
+    MINUS  shift, and go to state 101
+
+    $default  reduce using rule 69 (condition_expression)
+
+
+state 140
+
+   54 term: term DIV power .
+   56 power: power . EXPONENT factor
+
+    EXPONENT  shift, and go to state 110
+
+    $default  reduce using rule 54 (term)
+
+
+state 141
+
+   53 term: term MULT power .
+   56 power: power . EXPONENT factor
+
+    EXPONENT  shift, and go to state 110
+
+    $default  reduce using rule 53 (term)
+
+
+state 142
+
+   56 power: power EXPONENT factor .
+
+    $default  reduce using rule 56 (power)
+
+
+state 143
+
+   76 condition_statement: LP condition_expression RP statements . ELSE statements
+
+    ELSE  shift, and go to state 159
+
+
+state 144
+
+   72 condition_expression: condition_statement OROP condition_statement .
+
+    $default  reduce using rule 72 (condition_expression)
+
+
+state 145
+
+   71 condition_expression: condition_statement ANDOP condition_statement .
+
+    $default  reduce using rule 71 (condition_expression)
+
+
+state 146
+
+   17 block: LB statements DON expression . RB
+   50 expression: expression . PLUS term
+   51           | expression . MINUS term
+
+    PLUS   shift, and go to state 99
+    MINUS  shift, and go to state 101
+    RB     shift, and go to state 160
+
+
+state 147
+
+   85 input_statement: YE LP variable_name RP .
+
+    $default  reduce using rule 85 (input_statement)
+
+
+state 148
+
+   86 output_statement: TUKUR LP text RP .
+
+    $default  reduce using rule 86 (output_statement)
+
+
+state 149
+
+   87 output_statement: TUKUR LP variable_name RP .
+
+    $default  reduce using rule 87 (output_statement)
+
+
+state 150
+
+   50 expression: expression . PLUS term
+   51           | expression . MINUS term
+   58 factor: LP expression . RP
+
+    PLUS   shift, and go to state 99
+    MINUS  shift, and go to state 101
+    RP     shift, and go to state 132
+
+
+state 151
+
+   18 function_call: function_name LP function_expression_list RP .
+
+    $default  reduce using rule 18 (function_call)
+
+
+state 152
+
+   20 function_expression_list: expression COMMA . expression
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var     go to state 121
+    char_var        go to state 58
+    signless_int    go to state 59
+    int_var         go to state 60
+    digit_sequence  go to state 61
+    signless_float  go to state 62
+    float_var       go to state 63
+    variable_name   go to state 64
+    expression      go to state 161
+    term            go to state 66
+    power           go to state 67
+    factor          go to state 68
+    item            go to state 69
+    constant        go to state 70
+
+
+state 153
+
+   75 condition_statement: IF LP condition_expression RP block .
+
+    $default  reduce using rule 75 (condition_statement)
+
+
+state 154
+
+   83 for_statement: FOR LP assignment_statement SC condition_expression . SC update_statement RP block
+
+    SC  shift, and go to state 162
+
+
+state 155
+
+   84 while_statement: WHILE LP condition_expression RP block .
+
+    $default  reduce using rule 84 (while_statement)
+
+
+state 156
+
+   93 function_variable_list: variable COMMA . function_variable_list
+
+    FLOAT  shift, and go to state 4
+    BOOL   shift, and go to state 5
+    INT    shift, and go to state 6
+
+    variable_type           go to state 22
+    variable                go to state 129
+    function_variable_list  go to state 163
+
+
+state 157
+
+   95 function_body: LP function_variable_list RP .
+
+    $default  reduce using rule 95 (function_body)
+
+
+state 158
+
+   90 function_statement: FUNCT function_name function_body RP block .
+
+    $default  reduce using rule 90 (function_statement)
+
+
+state 159
+
+   76 condition_statement: LP condition_expression RP statements ELSE . statements
+
+    ALPHABETIC  shift, and go to state 3
+    FLOAT       shift, and go to state 4
+    BOOL        shift, and go to state 5
+    INT         shift, and go to state 6
+    COMMENT     shift, and go to state 7
+    IF          shift, and go to state 8
+    FOR         shift, and go to state 9
+    WHILE       shift, and go to state 10
+    FUNCT       shift, and go to state 11
+    LP          shift, and go to state 12
+    LB          shift, and go to state 13
+    SC          shift, and go to state 14
+    YE          shift, and go to state 15
+    TUKUR       shift, and go to state 16
+
+    statements            go to state 164
+    statement             go to state 18
+    loop_statement        go to state 19
+    block                 go to state 20
+    function_call         go to state 21
+    variable_type         go to state 22
+    variable_name         go to state 23
+    variable              go to state 24
+    assignment_statement  go to state 25
+    condition_statement   go to state 26
+    for_statement         go to state 27
+    while_statement       go to state 28
+    input_statement       go to state 29
+    output_statement      go to state 30
+    comment_statement     go to state 31
+    inline_comment        go to state 32
+    function_statement    go to state 33
+    function_name         go to state 34
+
+
+state 160
+
+   17 block: LB statements DON expression RB .
+
+    $default  reduce using rule 17 (block)
+
+
+state 161
+
+   20 function_expression_list: expression COMMA expression .
+   50 expression: expression . PLUS term
+   51           | expression . MINUS term
+
+    PLUS   shift, and go to state 99
+    MINUS  shift, and go to state 101
+
+    $default  reduce using rule 20 (function_expression_list)
+
+
+state 162
+
+   83 for_statement: FOR LP assignment_statement SC condition_expression SC . update_statement RP block
+
+    PLUS        shift, and go to state 49
+    ALPHABETIC  shift, and go to state 3
+    DIGIT       shift, and go to state 50
+    MINUS       shift, and go to state 52
+    LP          shift, and go to state 120
+    TRUE        shift, and go to state 54
+    FALSE       shift, and go to state 55
+    TT          shift, and go to state 56
+
+    boolean_var       go to state 121
+    char_var          go to state 58
+    signless_int      go to state 59
+    int_var           go to state 60
+    digit_sequence    go to state 61
+    signless_float    go to state 62
+    float_var         go to state 63
+    variable_name     go to state 64
+    expression        go to state 165
+    term              go to state 66
+    power             go to state 67
+    factor            go to state 68
+    item              go to state 69
+    constant          go to state 70
+    update_statement  go to state 166
+
+
+state 163
+
+   93 function_variable_list: variable COMMA function_variable_list .
+
+    $default  reduce using rule 93 (function_variable_list)
+
+
+state 164
+
+   76 condition_statement: LP condition_expression RP statements ELSE statements .
+
+    $default  reduce using rule 76 (condition_statement)
+
+
+state 165
+
+   50 expression: expression . PLUS term
+   51           | expression . MINUS term
+   66 update_statement: expression . INCREASE
+   67                 | expression . DECREASE
+
+    PLUS      shift, and go to state 99
+    MINUS     shift, and go to state 101
+    INCREASE  shift, and go to state 167
+    DECREASE  shift, and go to state 168
+
+
+state 166
+
+   83 for_statement: FOR LP assignment_statement SC condition_expression SC update_statement . RP block
+
+    RP  shift, and go to state 169
+
+
+state 167
+
+   66 update_statement: expression INCREASE .
+
+    $default  reduce using rule 66 (update_statement)
+
+
+state 168
+
+   67 update_statement: expression DECREASE .
+
+    $default  reduce using rule 67 (update_statement)
+
+
+state 169
+
+   83 for_statement: FOR LP assignment_statement SC condition_expression SC update_statement RP . block
+
+    LB  shift, and go to state 13
+
+    block  go to state 170
+
+
+state 170
+
+   83 for_statement: FOR LP assignment_statement SC condition_expression SC update_statement RP block .
+
+    $default  reduce using rule 83 (for_statement)

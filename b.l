@@ -54,7 +54,7 @@ CHAR_DEF char
 STRING_DEF string 
 FLOAT_DEF float 
 INTEGER_DEF int
-RETURN don
+DON don
 
 %%
 {ARRAY_IDENT} printf("ARRAY_IDENT ");

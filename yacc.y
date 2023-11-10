@@ -6,37 +6,62 @@ void yyerror(char* s);
 extern int yylineno;
 %}
 
+%token PLUS
 %token SIGN
+%token SPACE
 %token ALPHABETIC
 %token DIGIT
+%token FLOAT
+%token CHAR
+%token BOOL
+%token INT
 %token IDENTIFIER
-%token BOOLEAN
 %token STRING
+%token ARRAY_IDENT
 %token COMMENT
+%token MULTILINE_COMMENT
 %token NL
-%token CONST
+%token WS
 %token OROP
 %token ANDOP
 %token EQUAL
 %token ASSIGN
 %token NOT
-%token PLUS
 %token MINUS
 %token DIV
+%token MULT
 %token EXPONENT
 %token MOD
+%token INCREASE
+%token DECREASE
 %token IF
 %token ELSE
 %token FOR
-%token DO
 %token WHILE
+%token FUNCT
 %token LP
 %token RP
+%token LB
+%token RB
+%token LSB
+%token RSB
 %token SC
+%token COMMA
 %token GREATER_THAN
 %token LESS_THAN
+%token GRE_OR_EQU
+%token LES_OR_EQU
+%token NOT_EQUAL
 %token TRUE
 %token FALSE
+%token YE
+%token SIC
+%token BOOL_DEF
+%token CHAR_DEF
+%token STRING_DEF
+%token FLOAT_DEF
+%token INTEGER_DEF
+%token DON
 
 %%
 
@@ -58,50 +83,45 @@ loop_statement : for_statement
               
               
 block : LB statements RB | LB statements don expression RB
-function_call : function_name '(' function_expression_list ')'
+function_call : function_name LP function_expression_list RP
 function_expression_list : expression | expression COMMA expression
 
-// variables
-variable_type : bool | float | integer
-any-char : letter | digit | symbol | whitespace
+variable_type : BOOL | float | integer
+any_char : letter | digit | symbol | whitespace
 
 boolean_var : TRUE | FALSE
 
 signless_int : digit | digit signless_int
-int_var : plus signless_int | minus signless_int | signless_int
+int_var : PLUS signless_int | MINUS signless_int | signless_int
 
-digit-sequence : digit | digit digit-sequence
-signless_float : digit-sequence . digit-sequence
-float_var : plus signless_float | minus signless_float | signless_float
+digit_sequence : digit | digit digit_sequence
+signless_float : digit_sequence . digit_sequence
+float_var : PLUS signless_float | MINUS signless_float | signless_float
 
 identifier : letter | digit
-variable_name_long : identifier | identifier /variable_name_long
+variable_name_long : identifier | identifier variable_name_long
 variable_name : letter | letter variable_name_long
 variable : variable_type variable_name
 
-// Lists
 
-collection : LSB integer-list RSB
-       | LSB string-list RSB
-       | LSB float-list RSB
-       | LSB char-list RSB
-       | LSB boolean-list RSB
+collection : LSB integer_list RSB
+       | LSB string_list RSB
+       | LSB float_list RSB
+       | LSB char_list RSB
+       | LSB boolean_list RSB
 
-integer-list : integer | integer-list COMMA integer
-float-list : integer | float-list COMMA integer
-char-list : integer | char-list COMMA integer
-boolean-list : integer | boolean-list COMMA integer
-
-
-// Expression
+integer_list : integer | integer_list COMMA integer
+float_list : integer | float_list COMMA integer
+char_list : integer | char_list COMMA integer
+boolean_list : integer | boolean_list COMMA integer
 
 
-expression : expression + term | expression - term
+expression : expression PLUS term | expression MINUS term
        | term
-term : term * power | term / power
+term : term MULT power | term DIV power
        | power
-power : power ^ factor | factor
-factor : ( expression)
+power : power EXPONENT factor | factor
+factor : LP expression RP
        | item
 
 item : variable_name | constant
@@ -120,70 +140,30 @@ condition_expression : expression comparison_operator expression
        | NOT condition
        | boolean_var
 
-// CONDITIONS
 
 condition_statement : if LP condition_expression RP block
        | LP condition_expression RP statements else statements
 
-// LOOPS
 
 for_statement : for LP assignment_st SC condition_expression SC update_statement RP block
 while_statement : while LP condition_expression RP block
 
 
-// input output
 
 input_statement: cinLP variable_name RP
 output_statement : tukurLP string_varRP | tukurLP variable_nameRP
 
-// comment statement
 
 comment_statement : inline_comment | multiline_comment 
 inline_comment : COMMENT text
 multiline_comment : CM_OPEN text CM_CLOSE
 
-// function
 
 function_statement : function function_name  function_body RP block 
 function_name : variable_name
 function_variable_list : variable | variable COMMA function_variable_list
 function_body : LPRP
        | LP function_variable_list RP
-
-comparison_operator : "==" | "!=" | "<" | ">" | "<=" | ">="
-
-math_operator : "+" | "-" | "*" | "/" | "^" | "%"
-
-letter : "a" | "b" | ... | "z" | "A" | "B" | ... | "Z"
-
-digit : "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-symbol : "+" | "-" | "*" | "/" | "=" | "==" | "!=" | "<" | ">" | "<=" | "=" | "&&" | "||"
-whitespace : 
-LP : (
-RP : )
-LB : {
-RB :: = }
-LSB : [
-RSB : ]
-COMMA : ,
-SC : ;
-EQUAL : =
-OR : ||
-AND : &&
-NOT : !
-INCRESE : ++
-DECREASE : --
-PLUS : +
-MINUS : -
-COMMENT : //
-CM_OPEN : /*
-CM_CLOSE : */
-ARRAY_SIGN : []
-
-TRUE : true
-FALSE : false
-
-
 
 %%
 #include "lex.yy.c"

@@ -1,0 +1,45 @@
+kasik
+  function main(kova<int> args) {
+
+    kova<int> arr = [5, 9, 2, 11, 14, 6, 3, 8];
+    tukur(toString(arr));
+
+    quicksort();
+
+    tukur(toString(arr));
+  }
+
+  function quicksort(kova<int> arr, int start, int end) {
+
+    if(arr != null && arrlength <= 1) {
+      don;
+    }
+
+    if (start < end) {
+      int pivotIndex = partition(arr, start, end);
+      quicksort(arr, start, pivotIndex - 1);
+      quicksort(arr, pivotIndex + 1, end);
+    }
+  }
+
+  function partition(kova<int> arr, int start, int end) {
+
+    int pivot = arr[start];
+    int i = start;
+    for (int j = start + 1; j <= end; j++) {
+      if (arr[j] < pivot) {
+        i++;
+        swap(arr, i, j);
+      }
+    }
+    swap(arr, start, i);
+    don i;
+  }
+
+  function swap(kova<int> arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+
+bicak

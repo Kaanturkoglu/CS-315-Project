@@ -85,4 +85,10 @@ kova <kova<kova<int>>> tridimensin = [[[3], [2, 1 , 31]], [[213], [321331]]];
 
 int b = 15 + tridimensin[0][1][0];
 tridimensin[0][1][0 + 2][nx] = 3
+
+int k = bos
+if(k != null) {
+    tukur(olley)
+}
+
 bicak

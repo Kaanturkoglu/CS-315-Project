@@ -3,11 +3,9 @@ KASIK kasik
 BICAK bicak
 PLUS \+
 SIGN [+-]
-SPACE [ ]
 ALPHABETIC [A-Za-z]
 DIGIT [0-9]
 FLOAT [-+]?[0-9]*\.?[0-9]+?
-BOOL {TRUE}|{FALSE}
 INT {SIGN}?{DIGIT}+
 MULTILINE_COMMENT "/*"([^*]|\*+[^*/])*\*+"/"
 IDENTIFIER {ALPHABETIC}({ALPHABETIC}|{DIGIT})*
@@ -39,7 +37,6 @@ LSB \[
 RSB \]
 SC \;
 COMMA \,
-DOT \.
 GREATER_THAN \>
 LESS_THAN \<
 GRE_OR_EQU \>\=
@@ -54,6 +51,7 @@ FLOAT_DEF float
 INTEGER_DEF int
 KOVA_DEF kova
 DON don
+BOS bos
 
 %%
 {KASIK} return KASIK;
@@ -77,6 +75,7 @@ DON don
 {WHILE} return WHILE;
 {FUNCT} return FUNCT;
 {MULTILINE_COMMENT} return MULTILINE_COMMENT;
+{BOS} return BOS;
 {LP} return LP;
 {RP} return RP;
 {LB} return LB;
@@ -85,7 +84,6 @@ DON don
 {RSB} return RSB;
 {SC} return SC;
 {COMMA} return COMMA;
-{DOT} return DOT;
 {YE} return YE;
 {TUKUR} return TUKUR;
 {GREATER_THAN} return GREATER_THAN;

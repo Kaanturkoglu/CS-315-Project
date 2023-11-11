@@ -1,0 +1,26 @@
+kasik
+//Test5
+
+function foo(int p, int q) {
+    tukur(p);
+    tukur(q);
+
+    if (p > q) {
+        don p;
+    }
+
+    don q;
+}
+
+kova<int> list1 = [5, 0, 3, -7];
+kova<int> list2 = [9, -2, -1];
+
+for (int a = 0; i < 4; i++) {
+    for (int b = 0; b < 3; b++) {
+        int c = foo(list1[a], list2[b]);
+        tukur(list1[a])
+        tukur(list2[b])
+        tukur(c)
+    }
+}
+bicak

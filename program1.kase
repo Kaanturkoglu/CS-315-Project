@@ -1,46 +1,38 @@
 kasik
 
-bool baban = true;
-int annen = -12;
-int annen = +12;
-int annen = 12;
-annen = annen + 12;
-float bana = 12.3;
-int deneme = 12 + bana;
-int deneme = 12 - bana;
-int deneme = sana * bana;
-int deneme = sana / bana;
-int deneme = sana % bana;
-deden--;
-deden++;
+bool bb = true;
+int nn = -12;
+int nn2 = +12;
+int nn3 = 12;
+nn2 = nn3 + 12;
+float bn = 12.3;
+int deneme = 12 + bb;
+int deneme2 = 12 - nn2;
+int deneme3 = sana * nn2;
+int deneme4= nn2 / nn2;
+int deneme5 = bn % nn2;
+deneme--;
+deneme2++;
 tukur(deden);
-{
 
-}
-{
-    int b = 12;
-}
 if (true) {
  int b = 12;
-} else if (true) {
-
-} else if (true) {
-
+} else if (isTrue) {
+  tukur(9);
+} else if (isFalse) {
+  tukur(isFalse)
 }  else {
-    int b = 12;
-   bool a = true;
+  int b = 12;
+  bool a = true;
 } 
-bool baban = true;
+bool aace = true;
 {
     int bbane = 12;
 }
 if (true) {
  int b = 12;
 } 
-if (true) {
- int b = 12;
-} 
-function anan() {
+function afunc() {
   int aa = 5;
   int bb = 3;
   int cc = 4;
@@ -55,31 +47,18 @@ function anan() {
   don 21 + 12
 }
 
-function anan(int sa, bool be) {
+function fred(int sa, bool be) {
     int bbane = 12; 
 }
 
-anan(a, b);
+fred(a, b);
 int b = (3 + 5);
 if (2 + 5 > 12 && 5 == b || c) {
-    
+    tukur(12);
 }
 
-while (true) {
 
-}
-// sa
-for (int i = 0; i < 12; i = i + 2) {
-
-}
-
-/*
-anananna
-
-
-*/
-
-kova annen = [12, 12.3, 34, true, 12 + 12,12,3^2,4%3, 12.5 % 42     , 12];
+kova anyList = [12, 12.3, 34, true, 12 + 12,12,3^2,4%3, 12.5 % 42     , 12];
 kova<int> kovaList = [true, false];
 kova <kova<kova<int>>> tridimensin = [[[3], [2, 1 , 31]], [[213], [321331]]];
 
@@ -91,4 +70,22 @@ if(k != null) {
     tukur(olley)
 }
 
+
+while (true) {
+  // infinite loop
+  
+  /* 
+    it is a comment
+  */
+
+  int ran = random(0, 20);
+  if (ran == 16) {
+    // Should be don instead of return to avoid error
+    return;
+  }
+}
+// sa
+for (int i = 0; i < 12; i = i + 2) {
+  tukur(12);
+}
 bicak

@@ -128,7 +128,9 @@ conditions : conditions ANDOP conditions
 
 
 condition_statement : IF LP conditions RP block
+       | IF LP conditions RP block ELSE condition_statement
        | IF LP conditions RP block ELSE block
+       
 
 comparison_operator : EQUAL 
        | NOT_EQUAL

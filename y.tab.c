@@ -1813,7 +1813,7 @@ yyreturn:
 
 #include "lex.yy.c"
 void yyerror(char *s) {
-	fprintf(stdout, "line %d: %s\n", yylineno,s);
+	fprintf(stdout, "%s on line %d \n",s, yylineno);
 }
 
 int main() {

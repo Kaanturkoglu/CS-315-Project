@@ -1,4 +1,21 @@
 kasik
+    /*
+        Test 2: quicksort algorithm in KASE with no errors
+        Date: 11/11/2023
+        Group 58: Serhat Merak-Kaan Turkoglu
+     */
+
+  function additonalFunc(float floa){
+
+    float f = 3.1;
+    while(true){
+        f--;
+        tukur(11 * f);
+        tukur(42 % 11);
+    } 
+
+  }  
+
   function main(kova<int> args) {
 
     kova<int> arr = [5, 9, 2, 11, 14, 6, 3, 8];
@@ -12,6 +29,7 @@ kasik
   function quicksort(kova<int> arr, int start, int end) {
 
     if(arr != null && arrlength <= 1) {
+      int seka = 3^3;  
       don;
     }
 

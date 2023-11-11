@@ -51,6 +51,7 @@ extern int yylineno;
 %token BOOL_DEF
 %token FLOAT_DEF
 %token INTEGER_DEF
+%token KOVA_DEF
 %token DON
 %token KASIK
 %token BICAK
@@ -86,7 +87,7 @@ block : LB statements RB | LB RB
 function_call : function_name LP function_expression_list RP
 function_expression_list : expression | expression COMMA expression
 
-variable_type : BOOL_DEF | FLOAT_DEF | INTEGER_DEF | BOOL_DEF LSB RSB | FLOAT_DEF LSB RSB | INTEGER_DEF LSB RSB
+variable_type : BOOL_DEF | FLOAT_DEF | INTEGER_DEF | KOVA_DEF | KOVA_DEF LESS_THAN variable_type GREATER_THAN
 
 boolean_var : TRUE | FALSE
 int_var : INT
@@ -105,7 +106,7 @@ mod : mod MOD factor | factor
 factor : LP expression RP
        | item
 
-item : variable_name | constant | list
+item : variable_name | constant | kova
 
 constant : boolean_var | int_var | float_var
 
@@ -113,8 +114,8 @@ update_statement : variable_name DECREASE | variable_name INCREASE
 
 assignment_statement : variable ASSIGN expression | variable_name ASSIGN expression
 
-list_items: expression | expression COMMA list_items
-list : LSB list_items RSB
+kova_items: expression | expression COMMA kova_items
+kova : LSB kova_items RSB
 
 conditions : conditions ANDOP conditions
           | conditions OROP conditions

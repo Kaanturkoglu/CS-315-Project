@@ -52,6 +52,7 @@ TUKUR tukur
 BOOL_DEF bool 
 FLOAT_DEF float 
 INTEGER_DEF int
+KOVA_DEF kova
 DON don
 
 %%
@@ -99,6 +100,7 @@ DON don
 {BOOL_DEF} return BOOL_DEF;
 {FLOAT_DEF} return FLOAT_DEF;
 {INTEGER_DEF} return INTEGER_DEF;
+{KOVA_DEF} return KOVA_DEF;
 {IDENTIFIER} return IDENTIFIER;
 {INCREASE} return INCREASE;
 {DECREASE} return DECREASE;

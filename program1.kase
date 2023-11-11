@@ -71,6 +71,6 @@ anananna
 */
 
 kova annen = [12, 12.3, 34, true, 12 + 12,12,3^2,4%3, 12.5 % 42     , 12];
-kova<int> = [true, false];
-kova <kova<kova<int>>> = [[[3], [2, 1 , 31]], [[213], [321331]]];
+kova<int> kovaList = [true, false];
+kova <kova<kova<int>>> tridimensin = [[[3], [2, 1 , 31]], [[213], [321331]]];
 bicak

@@ -106,13 +106,14 @@ mod : mod MOD factor | factor
 factor : LP expression RP
        | item
 
-item : variable_name | constant | kova
+item : variable_name | constant | kova | variable_name array_index
+array_index : LSB expression RSB | array_index LSB expression RSB
 
 constant : boolean_var | int_var | float_var
 
 update_statement : variable_name DECREASE | variable_name INCREASE
 
-assignment_statement : variable ASSIGN expression | variable_name ASSIGN expression
+assignment_statement : variable ASSIGN expression | variable_name ASSIGN expression | variable_name array_index ASSIGN expression
 
 kova_items: expression | expression COMMA kova_items
 kova : LSB kova_items RSB

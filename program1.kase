@@ -22,15 +22,24 @@ tukur(deden);
 }
 if (true) {
  int b = 12;
-}
-else {
+} else if (true) {
+
+} else if (true) {
+
+}  else {
     int b = 12;
    bool a = true;
-}
+} 
 bool baban = true;
 {
     int bbane = 12;
 }
+if (true) {
+ int b = 12;
+} 
+if (true) {
+ int b = 12;
+} 
 function anan() {
   int aa = 5;
   int bb = 3;
@@ -73,4 +82,7 @@ anananna
 kova annen = [12, 12.3, 34, true, 12 + 12,12,3^2,4%3, 12.5 % 42     , 12];
 kova<int> kovaList = [true, false];
 kova <kova<kova<int>>> tridimensin = [[[3], [2, 1 , 31]], [[213], [321331]]];
+
+int b = 15 + tridimensin[0][1][0];
+tridimensin[0][1][0 + 2][nx] = 3
 bicak

@@ -10,6 +10,7 @@ int deneme = 12 + bana;
 int deneme = 12 - bana;
 int deneme = sana * bana;
 int deneme = sana / bana;
+int deneme = sana % bana;
 deden--;
 deden++;
 tukur(deden);
@@ -37,6 +38,12 @@ function anan() {
   if(aa > cc && {bb < cc && bb < aa}) {
     tukur(2);
   }
+
+  if (true) {
+    don 12 + 12
+  }
+
+  don 21 + 12
 }
 
 function anan(int sa, bool be) {
@@ -56,4 +63,10 @@ while (true) {
 for (int i = 0; i < 12; i = i + 2) {
 
 }
+
+/*
+anananna
+
+
+*/
 bicak

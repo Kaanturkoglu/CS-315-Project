@@ -21,6 +21,7 @@ extern int yylineno;
 %token DIV
 %token MULT
 %token EXPONENT
+%token MOD
 %token INCREASE
 %token DECREASE
 %token IF
@@ -36,6 +37,7 @@ extern int yylineno;
 %token RSB
 %token SC
 %token COMMA
+%token MULTILINE_COMMENT
 %token DOT
 %token GREATER_THAN
 %token LESS_THAN
@@ -70,14 +72,17 @@ statement : assignment_statement
        | comment_statement
        | update_statement
        | function_statement
+       | return_statement
        | function_call
        | block
        | SC 
 
+return_statement: DON expression | DON function_call
+
 loop_statement : for_statement
        | while_statement
               
-block : LB statements RB | LB statements DON expression RB | LB RB
+block : LB statements RB | LB RB
 function_call : function_name LP function_expression_list RP
 function_expression_list : expression | expression COMMA expression
 
@@ -87,30 +92,16 @@ boolean_var : TRUE | FALSE
 int_var : INT
 float_var : FLOAT
 
-digit_sequence : DIGIT | DIGIT digit_sequence
-signless_float : digit_sequence DOT digit_sequence
-
 identifier : IDENTIFIER
 variable_name : identifier 
 variable : variable_type variable_name
-
-
-collection : LSB integer_list RSB
-       | LSB float_list RSB
-       | LSB char_list RSB
-       | LSB boolean_list RSB
-
-integer_list : INT | integer_list COMMA INT
-float_list : INT | float_list COMMA INT
-char_list : INT | char_list COMMA INT
-boolean_list : INT | boolean_list COMMA INT
-
 
 expression : expression PLUS term | expression MINUS term
        | term
 term : term MULT power | term DIV power
        | power
-power : power EXPONENT factor | factor
+power : power EXPONENT factor | mod
+mod : mod MOD factor | factor
 factor : LP expression RP
        | item
 
@@ -147,9 +138,9 @@ while_statement : WHILE LP conditions RP block
 
 input_statement: YE LP variable_name RP
 output_statement : TUKUR LP expression RP
-
-comment_statement : inline_comment 
+comment_statement : inline_comment | multiline_comment
 inline_comment : COMMENT
+multiline_comment : MULTILINE_COMMENT
 
 function_statement : FUNCT function_name function_body block
 function_name : variable_name

@@ -9,6 +9,7 @@ DIGIT [0-9]
 FLOAT [-+]?[0-9]*\.?[0-9]+?
 BOOL {TRUE}|{FALSE}
 INT {SIGN}?{DIGIT}+
+MULTILINE_COMMENT "/*"([^*]|\*+[^*/])*\*+"/"
 IDENTIFIER {ALPHABETIC}({ALPHABETIC}|{DIGIT})*
 COMMENT \/\/([^\n]*)(\n)
 NL \n
@@ -74,6 +75,7 @@ DON don
 {FOR} return FOR;
 {WHILE} return WHILE;
 {FUNCT} return FUNCT;
+{MULTILINE_COMMENT} return MULTILINE_COMMENT;
 {LP} return LP;
 {RP} return RP;
 {LB} return LB;
